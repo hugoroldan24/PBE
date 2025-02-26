@@ -4,6 +4,7 @@ Utilitzaré la llibreria SimpleMFRC522 del paquet de llibreries mfrc522.
 Per instalarla, he fet servir la següent comanda a la terminal:
 pip install mfrc522-python 
 Descarrego la llibreria desde el repositori en linea de python PyPI. Aquesta llibreria et fa interactuar amb el mòdul des de un nivell molt alt, però per l'aplicació demanada no és necessari programar-ho a un nivell més baix.
+La informació de la llibrería ha sigut trobada a https://pypi.org/project/mfrc522-python/
 """ 
 from mfrc522 import SimpleMFRC522                     #Importo la llibreria SimpleMFRC522 del paquet mfrc522
 class Rfid_522:
