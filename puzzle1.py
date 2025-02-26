@@ -13,10 +13,10 @@ class Rfid_522:
       self.reader = SimpleMFRC522()              # Instanciem un objecte de la clase SimpleMFRC522()
   """Llegueix el uid i ho guarda en format hexadecimal a l'atribut "uid" de la pròpia classe"""
   def read_uid(self): 
-      self.uid = hex(self.reader.read_id())[2:]  # Utilitzem el mètode read_id() de la llibreria SimpleMFRC522 sobre l'objecte reader que retorna l'id en format Integer. Després el convertim a hexadecimal i eliminem el prefixe "0x". 
-if __name__ == "__main__":                       # Aquesta linea permet que el codi no s'executi automàticament si l'importem com a mòdul en un altre script. El codi només s'executarà quan el fem correr directament escribint a la terminal python puzzle1.py.
-      rf = Rfid_522()
-      rf.read_uid()                              # Obtenim el valor de l'uid en hexadecimal, que es guardarà a l'atribut uid.
-      print(f"uid: {rf.uid}")                    # Imprimim l'identificador en format hexadecimal per pantalla
+      self.uid = hex(self.reader.read_id())[2:]  # Utilitza el mètode read_id() de la llibreria SimpleMFRC522 sobre l'objecte reader que retorna l'id en format Integer. Després el convertim a hexadecimal i eliminem el prefixe "0x". 
+if __name__ == "__main__":                       # Aquesta linea permet que el codi no s'executi automàticament si l'importem com a mòdul en un altre script. El codi només s'executarà quan el fem correr directament escribint a la terminal: python puzzle1.py.
+      rf = Rfid_522()                            # Instancia un objecte de la classse Rfid_522()
+      rf.read_uid()                              # Obté el valor de l'uid en hexadecimal, que es guardarà a l'atribut uid.
+      print(f"uid: {rf.uid}")                    # Imprimeix l'identificador en format hexadecimal per pantalla
 
 
