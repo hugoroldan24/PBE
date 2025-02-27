@@ -2,7 +2,7 @@
 El primer puzzle consisteix en imprimir per consola el uid (user identifier) de la tarjeta o clauer Mifare S50 o la tarjeta de la UPC.
 Utilitzaré la llibreria SimpleMFRC522 del paquet de llibreries mfrc522. 
 Per instalarla, he fet servir la següent comanda a la terminal:
-pip install mfrc522-python 
+pip install mfrc522-python --break-system-packages
 Descarrego la llibreria desde el repositori en linea de python PyPI. 
 La informació de la llibrería ha sigut trobada a https://pypi.org/project/mfrc522-python/
 """ 
