@@ -37,8 +37,9 @@ class widgetManager:
         
 class widgetEditor:
     def __init__(self)
-        editor_css = Gtk.CssProvider()         #Creem l'objecte que controlarà les regles d'estil CSS
-    def configurar_estil(widget,color_fons,color_text,padding,border_radius)
+        editor_css = Gtk.CssProvider()                                             #Creem l'objecte que controlarà les regles d'estil CSS
+        
+    def configurar_estil(self,widget,color_fons,color_text,padding,border_radius)
         css = f"""
         *{{
             background-color: {color_fons};  
@@ -48,10 +49,10 @@ class widgetEditor:
         }}
         """
         self.editor_css.load_from_data(css.encode())
-        
+        context_estil = widget.get_style_context()
+        context_estil.add_provider(self.editor_css,Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
         
             
-        self.css_provider.load_from_data
 
 
 class Background:
