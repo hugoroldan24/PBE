@@ -6,8 +6,11 @@ sudo apt install gir1.2-gtk-3.0
 """
 import gi
 import puzzle1 as pz1
-from gi.repository import Gtk  
+gi.require_version("Gtk", "3.0")  #Indiquem que volem fer servir GTK3
+from gi.repository import Gtk     #Importem desde el repositori de gi la llibreria Gtk que conté les classes y mètodes per crear la interfaç. 
 
+class Finestra(Gtk.Window)        #Clase relacionada amb la finestra de la aplicació. La classe hereda la clase Gtk.Window de gtk3
+    def __init__:
 if __name__ == "__main__":
   
 
