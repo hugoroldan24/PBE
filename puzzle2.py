@@ -13,7 +13,7 @@ class MyWindow(Gtk.Window):                                #Clase relacionada am
     def __init__(self,widgetManager,widgetEditor):
         super().__init__()                                 #Truquem a la funció __init__ de la classe Gtk.Window     
         self.wM = widgetManager()                            #Instanciem un objecte de la clase widgetManager, s'encarregarà de gestionar tot lo relacionat amb els wadgets
-        myReader = ()
+        myReader = Rfid_522()                                  # Instancia un objecte de la classe Rfid_522() de la llibreria puzzle1
     def configure_window(self,amplada,altura,posició,titol):
         self.set_title(titol) 
         self.set_default_size(amplada,altura)
