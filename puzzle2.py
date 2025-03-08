@@ -20,7 +20,7 @@ class MyWindow(Gtk.Window):  #Clase relacionada amb la finestra de la aplicació
         self.set_default_size(amplada,altura)
         self.set_position(posició) 
         
-    def start_boxes(self)
+    def start_boxes(self):
           """Per tal de distribuir les capses de forma que quedi una a sobre de la altre, creo una capsa vertical i considero la capsa inferior i superior com si fossing wadgets. 
         Si configuro que la caixa superior tingui els paràmetrs expand i fill com a True i la inferior com a False, en l'ordre que s'executa el codi quedaràn col·locades com s'espera"""
         
@@ -33,13 +33,13 @@ class MyWindow(Gtk.Window):  #Clase relacionada amb la finestra de la aplicació
 
         self.add(self.wM.boxes[2])                                                          #Afegim la capsa principal a la finestra, aquesta capsa conté tots els wadgets    
 
-    def start_labels(self)
+    def start_labels(self):
         self.wM.create_label(""""                    Benvingut!
                                           Siusplau, identifique-vos apropant el vostre carnet de la UPC """)
         self.wE.configure_style(self.wM.labels[0],"#4682B4","black","0","0")               #Configurem l'estil del Label de benvinguda
         self.wM.add_widget_box(self.wM.boxes[1],self.wM.labels[0],True,True,0)             #Afegim el label de benvinguda a la capsa 1 (superior)
         
-    def start_buttons(self)
+    def start_buttons(self):
         self.wM.create_button("Surt")                                                      #Creem el botó de sortida
         self.wM.buttons[0].connect("clicked",self.exit_button_pressed)                     #S'executarà la funció "exit_buttom_pressed quan pressionem el botó
         self.wM.configure_style(self.wM.buttons[0],"red","black","0","20")                 #Configurem l'estil del botó de sortida
@@ -55,12 +55,12 @@ class MyWindow(Gtk.Window):  #Clase relacionada amb la finestra de la aplicació
     def exit_button_pressed(self):
         Gtk.main_quit()
         
-    def rf_reading_task(self)
+    def rf_reading_task(self):
         self.myReader.read_uid()     
         GLib.idle_add(self.update_window, myReader.uid)                # GTK no es thread-safe, per tant per evitar problemes hem de actualitzar la interfaç des de el fil principal, no desde el secundari.
                                                                         #El que fem es fer que el fil secundari faci que s'executi el mètode update_window des de el fil principal
         
-    def update_window(self,uid)
+    def update_window(self,uid):
         self.wM.configure_style(self.wM.labels[0],"green","black","0",0")
         self.wM.labels[0].set_text(f"""                    Tarjeta detectada satisfactòriament!
                                                                      uid: {uid}""")
@@ -70,10 +70,10 @@ class MyWindow(Gtk.Window):  #Clase relacionada amb la finestra de la aplicació
         self.wM.buttons[1].set_halign(Gtk.Align.CENTER)
         self.wM.buttons[1].connect("clicked",self.reset_interface)
         
-    def start_reading_thread(self)
+    def start_reading_thread(self):
         thread = threading.Thread(target=self.rf_reading_task)
         self.thread.start()
-     def clear_button_pressed(self)
+     def clear_button_pressed(self):
          self.wM.configure_style(self.wM.labels[0],"blue","black","0",0")
          self.wM.labels[0].set_text(f"""""""                    Benvingut!
                                           Siusplau, identifique-vos apropant el vostre carnet de la UPC """)
@@ -98,7 +98,7 @@ class widgetManager:
         
     def add_widget_box(self,box,widget,expand,fill,padding):
         box.pack_start(widget, expand, fill, padding)  
-    def configure_style(self,widget,color_fons,color_text,padding,border_radius)
+    def configure_style(self,widget,color_fons,color_text,padding,border_radius):
         css = f"""
         *{{
             background-color: {color_fons};  
