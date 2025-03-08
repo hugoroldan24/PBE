@@ -6,8 +6,9 @@ sudo apt install gir1.2-gtk-3.0
 """
 import gi
 import puzzle1 
+import threading 
 gi.require_version("Gtk", "3.0")                          #Indiquem que volem fer servir GTK3
-from gi.repository import Gtk                             #Importem desde el repositori de gi la llibreria Gtk que conté les classes y mètodes per crear la interfaç. 
+from gi.repository import Gtk, GLib                             #Importem desde el repositori de gi la llibreria Gtk que conté les classes y mètodes per crear la interfaç. 
 
 class MyWindow(Gtk.Window):  #Clase relacionada amb la finestra de la aplicació. La classe hereda la clase Gtk.Window de gtk3
     def __init__(self,widgetManager,widgetEditor):
@@ -54,6 +55,16 @@ class MyWindow(Gtk.Window):  #Clase relacionada amb la finestra de la aplicació
     def exit_button_pressed(self):
         Gtk.main_quit()
         
+    def rf_reading_task(self)
+        self.myReader.read_uid()     
+        GLib.idle_add(self.update_window, myReader.uid)                # GTK no es thread-safe, per tant per evitar problemes hem de actualitzar la interfaç des de el fil principal, no desde el secundari.
+                                                                        #El que fem es fer que el fil secundari faci que s'executi el mètode update_window des de el fil principal
+        
+    def update_window(self,uid)
+
+    def start_reading_thread(self)
+        thread = threading.Thread(target=self.rf_reading_task)
+        
 class widgetManager:
     def __init__(self):
         self.boxes = []
@@ -90,6 +101,7 @@ class widgetManager:
 if __name__ == "__main__":
       window = MyWindow(widgetManager())
       window.configure_window(400,300)
+      win.connect("destroy", Gtk.main_quit)
       window.start_window()
       Gtk.main()
     
