@@ -5,7 +5,7 @@ sudo apt install gir1.2-gtk-3.0
 
 """
 import gi
-import puzzle1 as pz1
+import puzzle1 
 gi.require_version("Gtk", "3.0")                          #Indiquem que volem fer servir GTK3
 from gi.repository import Gtk                             #Importem desde el repositori de gi la llibreria Gtk que conté les classes y mètodes per crear la interfaç. 
 
@@ -13,7 +13,7 @@ class MyWindow(Gtk.Window):                                #Clase relacionada am
     def __init__(self,widgetManager,widgetEditor):
         super().__init__()                                 #Truquem a la funció __init__ de la classe Gtk.Window     
         self.wM = widgetManager()                            #Instanciem un objecte de la clase widgetManager, s'encarregarà de gestionar tot lo relacionat amb els wadgets
-        
+        myReader = ()
     def configure_window(self,amplada,altura,posició,titol):
         self.set_title(titol) 
         self.set_default_size(amplada,altura)
@@ -29,6 +29,8 @@ class MyWindow(Gtk.Window):                                #Clase relacionada am
 
         self.wM.add_widget_box(self.wM.boxes[2],self.wM.boxs[1],True,True,0)             #Afegim la capsa 1 (superior) a la capsa 2 (principal)
         self.wM.add_widget_box(self.wM.boxes[2],self.wM.boxs[0],False,False,0)           #Afegim la capsa 0 (inferior) a la capsa 2 (principal)
+
+        self.add(self.wM.boxes[2])                                                          #Afegim la capsa principal a la finestra, aquesta capsa conté tots els wadgets    
 
     def start_labels(self)
         self.wM.create_label(""""                    Benvingut!
@@ -47,7 +49,6 @@ class MyWindow(Gtk.Window):                                #Clase relacionada am
         self.start_boxes()
         self.start_labels()
         self.start_buttons()
-        self.add(self.wM.boxes[2])                           #Afegim la capsa principal a la finestra, aquesta capsa conté tots els wadgets    
         self.show_all()
          
     def exit_button_pressed(self):
