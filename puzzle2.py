@@ -41,7 +41,7 @@ class MyWindow(Gtk.Window):  #Clase relacionada amb la finestra de la aplicació
         
     def start_buttons(self)
         self.wM.create_button("Surt")                                                      #Creem el botó de sortida
-        self.wM.buttons[0].connect("clicked",self.exit_buttom_pressed)                     #S'executarà la funció "exit_buttom_pressed quan pressionem el botó
+        self.wM.buttons[0].connect("clicked",self.exit_button_pressed)                     #S'executarà la funció "exit_buttom_pressed quan pressionem el botó
         self.wM.configure_style(self.wM.buttons[0],"red","black","0","20")                 #Configurem l'estil del botó de sortida
         self.wM.buttons[0].set_halign(Gtk.Align.START)                                     #Situem el botó de sortida a la esquerra de la caixa
         self.wM.add_widget_box(self.wM.boxs[0],self.wM.buttons[0],False,False,0)           #Afegim el botó "Surt" a la capsa 0 (inferior)
@@ -61,10 +61,25 @@ class MyWindow(Gtk.Window):  #Clase relacionada amb la finestra de la aplicació
                                                                         #El que fem es fer que el fil secundari faci que s'executi el mètode update_window des de el fil principal
         
     def update_window(self,uid)
-
+        self.wM.configure_style(self.wM.labels[0],"green","black","0",0")
+        self.wM.labels[0].set_text(f"""                    Tarjeta detectada satisfactòriament!
+                                                                     uid: {uid}""")
+        self.wM.create_button("Clear")
+        self.wM.configure_style(self.wM.buttons[1],"gray","black","0","20")
+        self.wM.add_widget_box(self.wM.boxes[0],self.wM.buttons[1],False,False,0)    # Introduim el botó Clear a la capsa 0 (inferior)
+        self.wM.buttons[1].set_halign(Gtk.Align.CENTER)
+        self.wM.buttons[1].connect("clicked",self.reset_interface)
+        
     def start_reading_thread(self)
         thread = threading.Thread(target=self.rf_reading_task)
-        
+        self.thread.start()
+     def clear_button_pressed(self)
+         self.wM.configure_style(self.wM.labels[0],"blue","black","0",0")
+         self.wM.labels[0].set_text(f"""""""                    Benvingut!
+                                          Siusplau, identifique-vos apropant el vostre carnet de la UPC """)
+         self.wM.buttons[1].destroy()
+         self.thread.start()
+         
 class widgetManager:
     def __init__(self):
         self.boxes = []
