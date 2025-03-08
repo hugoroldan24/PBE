@@ -17,27 +17,40 @@ class Finestra(Gtk.Window):        #Clase relacionada amb la finestra de la apli
         self.set_position(Gtk.WindowPosition.CENTER) #Accedeixes a una constant pròpia de Gtk 
         self.widgetManager = widgetManager
         self.widgetEditor = widgetEditor
+
+        exit_button = None
+        text_benvinguda = None
+        box_superior = None
+        box_inferior = None
+        box_vertical = None
         
     def configurar_finestra(self):
-        text_benvinguda = self.widgetManager.crear_label("""                    Benvingut!
+        self.text_benvinguda = self.widgetManager.crear_label("""                    Benvingut!
                                           Siusplau, identifique-vos apropant el vostre carnet de la UPC """)
-        exit_button = self.widgetManager.crear_boton("Surt")
+        self.exit_button = self.widgetManager.crear_boton("Surt")
+        self.exit_button.connect("clicked",self.exit_buttom_pressed)
+        self.box_superior = self.widgetManager.crear_box(Gtk.Orientation.HORIZONTAL)           # Creem un botó que col·locarem a la part superior de la finestra
+        self.box_inferior = self.widgetManager.crear_box(Gtk.Orientation.HORIZONTAL)           # Creem un botó que col·locarem a la part inferior de la finestra
         
-        box_superior = self.widgetManager.crear_box(Gtk.Orientation.HORIZONTAL)           #Creem un botó que col·locarem a la part superior de la finestra
-        box_inferior = self.widgetManager.crear_box(Gtk.Orientation.HORIZONTAL)           #Creem un botó que col·locarem a la part inferior de la finestra
+        self.widgetManager.afegir_widget_box(box_superior,text_benvinguda,True,True,0)         # Introduim el Label de benvinguda al Box superior
+        self.widgetManager.afegir_widget_box(box_inferior,exit_button,False,False,0)           # Introduim el botó Exit al Box inferior
         
-        self.widgetManager.afegir_widget_box(box_superior,text_benvinguda,True,True,0)    # Introduim el Label de benvinguda al Box superior
-        self.widgetManager.afegir_widget_box(box_inferior,exit_button,False,False,0)
+        self.widgetEditor.configurar_estil(text_benvinguda,"#4682B4","black","0","0")          # Configuramos el estilo del botón Exit en el Box inferior
+        self.widgetEditor.configurar_estil(exit_button,"red","black","0","20")                 # Configuramos el estilo del Label de bienvenida en el Box superior        
+        self.exit_button.set_halign(Gtk.Align.START)                                           # Situem el botó de sortida a la esquerra de la caixa
         
-        self.widgetEditor.configurar_estil(text_benvinguda,"#4682B4","black","0","0")     #Configuramos el estilo del botón Exit en el Box inferior
-        self.widgetEditor.configurar_estil(exit_button,"red","black","0","20")            #Configuramos el estilo del Label de bienvenida en el Box superior        
-
-        """Per tal de distribuir les capses de forma que quedi una a sobre de la altre, creo una capsa vertical i considero la capsa inferior i superior com si fossing wadgets. Si configuro que la caixa superior tingui els paràmetrs expand i fill com a True i la inferior com a False, en l'ordre que s'executa el codi quedaràn col·locades com s'espera"""
-        box_vertical = self.widgetManager.crear_box(Gtk.Orientation.VERTICAL)
-        self.widgetManager.afegir_widget_box(box_vertical,box_superior,False,False,0)    
-        self.widgetManager.afegir_widget_box(box_vertical,box_inferior,False,False,0)
+        """Per tal de distribuir les capses de forma que quedi una a sobre de la altre, creo una capsa vertical i considero la capsa inferior i superior com si fossing wadgets. 
+        Si configuro que la caixa superior tingui els paràmetrs expand i fill com a True i la inferior com a False, en l'ordre que s'executa el codi quedaràn col·locades com s'espera"""
         
-        self.add(
+        self.box_vertical = self.widgetManager.crear_box(Gtk.Orientation.VERTICAL)
+        self.widgetManager.afegir_widget_box(box_vertical,box_superior,True,True,0)    
+        self.widgetManager.afegir_widget_box(box_vertical,box_inferior,False,False,0)        
+        self.add(box_vertical)
+        self.show_all()
+        
+    def exit_button_pressed(self):
+        Gtk.main_quit()
+    
 class widgetManager:
     def __init__(self):
         self.boxes = []
@@ -75,6 +88,9 @@ class widgetEditor:
                     
 if __name__ == "__main__":
       finestra = Finestra(widgetManager(),widgetEditor())
+      finestra.configurar_finestra()
+      Gtk.main()
+    
       
 
 
