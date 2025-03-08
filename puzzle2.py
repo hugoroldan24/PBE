@@ -58,9 +58,12 @@ class MyWindow(Gtk.Window):  #Clase relacionada amb la finestra de la aplicació
     def rf_reading_task(self):
         self.myReader.read_uid()     
         GLib.idle_add(self.update_window, myReader.uid)                # GTK no es thread-safe, per tant per evitar problemes hem de actualitzar la interfaç des de el fil principal, no desde el secundari.
-                                                                        #El que fem es fer que el fil secundari faci que s'executi el mètode update_window des de el fil principal
-        
-    def update_window(self,uid):
+                                                                        #El que fem es fer que el fil secundari faci que s'executi el mètode update_window des de el fil principal       
+     def start_reading_thread(self):
+        thread = threading.Thread(target=self.rf_reading_task)
+        self.thread.start()
+         
+     def update_window(self,uid):
         self.wM.configure_style(self.wM.labels[0],"green","black","0",0")
         self.wM.labels[0].set_text(f"""                    Tarjeta detectada satisfactòriament!
                                                                      uid: {uid}""")
@@ -68,17 +71,15 @@ class MyWindow(Gtk.Window):  #Clase relacionada amb la finestra de la aplicació
         self.wM.configure_style(self.wM.buttons[1],"gray","black","0","20")
         self.wM.add_widget_box(self.wM.boxes[0],self.wM.buttons[1],False,False,0)    # Introduim el botó Clear a la capsa 0 (inferior)
         self.wM.buttons[1].set_halign(Gtk.Align.CENTER)
-        self.wM.buttons[1].connect("clicked",self.reset_interface)
-        
-    def start_reading_thread(self):
-        thread = threading.Thread(target=self.rf_reading_task)
-        self.thread.start()
-     def clear_button_pressed(self):
+        self.wM.buttons[1].connect("clicked",self.reset_window)
+         
+     def reset_window(self):
          self.wM.configure_style(self.wM.labels[0],"blue","black","0",0")
          self.wM.labels[0].set_text(f"""""""                    Benvingut!
                                           Siusplau, identifique-vos apropant el vostre carnet de la UPC """)
          self.wM.buttons[1].destroy()
          self.thread.start()
+      
          
 class widgetManager:
     def __init__(self):
@@ -111,13 +112,14 @@ class widgetManager:
         style_context = widget.get_style_context()
         style_context.add_provider(self.editor_css,Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
         
-                                                    
-                    
+                                                                        
 if __name__ == "__main__":
       window = MyWindow(widgetManager())
       window.configure_window(400,300)
       win.connect("destroy", Gtk.main_quit)
+    
       window.start_window()
+      window.start_reading_thread()
       Gtk.main()
     
 
