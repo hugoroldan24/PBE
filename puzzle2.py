@@ -10,13 +10,34 @@ gi.require_version("Gtk", "3.0")  #Indiquem que volem fer servir GTK3
 from gi.repository import Gtk     #Importem desde el repositori de gi la llibreria Gtk que conté les classes y mètodes per crear la interfaç. 
 
 class Finestra(Gtk.Window):        #Clase relacionada amb la finestra de la aplicació. La classe hereda la clase Gtk.Window de gtk3
-    def __init__(self,widgetManager):
+    def __init__(self,widgetManager,widgetEditor):
         super().__init__()        #Truquem a la funció __init__ de la classe Gtk.Window
         self.set_title("PUZZLE2") 
         self.set_default_size(400,300)
         self.set_position(Gtk.WindowPosition.CENTER) #Accedeixes a una constant pròpia de Gtk 
         self.widgetManager = widgetManager
+        self.widgetEditor = widgetEditor
+        
+    def configurar_finestra(self):
+        text_benvinguda = self.widgetManager.crear_label("""                    Benvingut!
+                                          Siusplau, identifique-vos apropant el vostre carnet de la UPC """)
+        exit_button = self.widgetManager.crear_boton("Surt")
+        
+        box_superior = self.widgetManager.crear_box(Gtk.Orientation.HORIZONTAL)           #Creem un botó que col·locarem a la part superior de la finestra
+        box_inferior = self.widgetManager.crear_box(Gtk.Orientation.HORIZONTAL)           #Creem un botó que col·locarem a la part inferior de la finestra
+        
+        self.widgetManager.afegir_widget_box(box_superior,text_benvinguda,True,True,0)    # Introduim el Label de benvinguda al Box superior
+        self.widgetManager.afegir_widget_box(box_inferior,exit_button,False,False,0)
+        
+        self.widgetEditor.configurar_estil(text_benvinguda,"#4682B4","black","0","0")     #Configuramos el estilo del botón Exit en el Box inferior
+        self.widgetEditor.configurar_estil(exit_button,"red","black","0","20")            #Configuramos el estilo del Label de bienvenida en el Box superior        
 
+        """Per tal de distribuir les capses de forma que quedi una a sobre de la altre, creo una capsa vertical i considero la capsa inferior i superior com si fossing wadgets. Si configuro que la caixa superior tingui els paràmetrs expand i fill com a True i la inferior com a False, en l'ordre que s'executa el codi quedaràn col·locades com s'espera"""
+        box_vertical = self.widgetManager.crear_box(Gtk.Orientation.VERTICAL)
+        self.widgetManager.afegir_widget_box(box_vertical,box_superior,False,False,0)    
+        self.widgetManager.afegir_widget_box(box_vertical,box_inferior,False,False,0)
+        
+        self.add(
 class widgetManager:
     def __init__(self):
         self.boxes = []
@@ -51,24 +72,10 @@ class widgetEditor:
         self.editor_css.load_from_data(css.encode())
         context_estil = widget.get_style_context()
         context_estil.add_provider(self.editor_css,Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-        
-            
-
-
-class Background:
-    def __init__(self)
-        self.eventboxes = []
-    def crear_label(text)
-        return intro_label= Gtk.Label(label=text)
-    def crear_eventbox(self)
-        return Gtk.EventBox()
-    def afegir_label(label,eventbox)
-        eventbox.add(label)
-    
-
                     
 if __name__ == "__main__":
-  
+      finestra = Finestra(widgetManager(),widgetEditor())
+      
 
 
 
