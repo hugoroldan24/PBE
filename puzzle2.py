@@ -207,7 +207,7 @@ class Application(Gtk.Application):
     """
     Mètode que s'executa cuan es crida la funció .run() a objecte d'aquesta mateixa classe.
     """
-    def do_activate(self)
+    def do_activate(self):
         window = myWindow(widgetManager())                 #Instanciem una finestra i passem un objecte widgetManager per paràmetre.
         window.configure_window(400,300,,"PUZZLE2")        #Configurem la finestra.
         win.connect("destroy",self.quit)                   #La finestra es podrà esborrar de forma manual eliminant la pestanya o clicant a la X.
