@@ -126,77 +126,77 @@ Per exemple, si es crida primer 'create_label(String1)' i seguidament 'create_la
 'create_label(String1)', l'ordre al vector labels[] s'haurà invertit.
 """
 class widgetManager:
-    """
-    Instancia un objecte de la classe widggetManager. Crea els vectors que contindran les capses, botons i labels que es vaguin creant.
-    """
-    def __init__(self):
-        self.boxes = []
-        self.buttons = []
-        self.labels = []
-        editor_css = Gtk.CssProvider()                             #Creem l'objecte que controlarà les regles d'estil CSS.      
-        
-    """
-    Crea un label.
-    Paràmetres:
-        :text: Text que es vol mostrar al label.
-    """   
-    def create_label(self,text):
-        self.labels.append(Gtk.Label(label=text))                   #Guardem el label al vector labels[] de la classe.
-        
-    """
-    Crea una capsa.
-    Paràmetres:
-        :orientation: Orientació de la capsa (horitzontal, vertical).
-        :spacing: Quantitat d'espai que deixaran els widgets de la capsa entre ells.
-    """
-    def create_box(self,orientation,spacing):
-        box = Gtk.Box(orientation=orientation,spacing=spacing)
-        self.boxes.append(box)                                      #Guardem la capsa al vector boxes[] de la classe.
-        
-    """
-    Crea un botó.
-    Paràmetres:
-        :text: Text que contindrà el botó.
-    """          
-    def create_button(self,text):                        
-        self.botons.append(Gtk.Button(label=text))                 #Guardem el botó al vector buttons[] de la classe.         
-        
-    """
-    Afegim el widget a la capsa passada per argument.
-    Paràmetres:    
-        :box: Capsa a la qual volem afegir un widget.
-        :widget: Widget que volem afegir a la capses.
-        :expand(boolean): Si vols que el widget s'expandeixi per omplenar el espai lliure de la capsa, altrament, el widget mantindrà el seu tamany original.
-        :fill(boolean): Si vols que el widget ompleni el espai disponible dintre de l'àrea que se li assgina a la capsa.
-        :padding: Marge en píxels entre el widget i la capsa.
-    """
-    def add_widget_box(self,box,widget,expand,fill,padding):
-        box.pack_start(widget, expand, fill, padding)  
-        
-    """
-    Utilitzem el llenguatge CSS per editar els widgets.
-    Paràmetres:
-        :widget: Widget que volem editar.
-        :color_fons: Color desijat del fons del widget.
-        :color_text: Color desijat del text del widget.
-        :padding: Marge entre el text i la seva vora.
-        :border_radius: Radi de curvatura de la vora del widget.
-    """
-    def configure_style(self,widget,color_fons,color_text,padding,border_radius):
-                                                                                           #Creem la cadena de text que conté regles CSS dinàmicament utilitzant f-strings.
-        css = f"""                                                                         
-        *{{
-            background-color: {color_fons};  
-            color: {color_text};                  
-            padding: {padding}px;                  
-            border-radius: {border_radius}px;   
-        }}
         """
-        self.editor_css.load_from_data(css.encode())                                         #Carreguem les regles d'estil CSS del string "css" en format de bytes al proveïdor CSS que hem instanciat al mètode __init__.
-        style_context = widget.get_style_context()                                           #Obtenim accés a la informació del stil del widget per poder modificarl-lo.
-        style_context.add_provider(self.editor_css,Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)  #Editem el stil del widget amb les caràcteristiques carregades al objecte editor_css.
+        Instancia un objecte de la classe widggetManager. Crea els vectors que contindran les capses, botons i labels que es vaguin creant.
+        """
+        def __init__(self):
+            self.boxes = []
+            self.buttons = []
+            self.labels = []
+            editor_css = Gtk.CssProvider()                             #Creem l'objecte que controlarà les regles d'estil CSS.      
+        
+        """
+        Crea un label.
+        Paràmetres:
+            :text: Text que es vol mostrar al label.
+        """   
+        def create_label(self,text):
+            self.labels.append(Gtk.Label(label=text))                   #Guardem el label al vector labels[] de la classe.
+        
+        """
+        Crea una capsa.
+        Paràmetres:
+            :orientation: Orientació de la capsa (horitzontal, vertical).
+            :spacing: Quantitat d'espai que deixaran els widgets de la capsa entre ells.
+        """
+        def create_box(self,orientation,spacing):
+            box = Gtk.Box(orientation=orientation,spacing=spacing)
+            self.boxes.append(box)                                      #Guardem la capsa al vector boxes[] de la classe.
+        
+        """
+        Crea un botó.
+        Paràmetres:
+            :text: Text que contindrà el botó.
+        """          
+        def create_button(self,text):                        
+            self.botons.append(Gtk.Button(label=text))                 #Guardem el botó al vector buttons[] de la classe.         
+            
+        """
+        Afegim el widget a la capsa passada per argument.
+        Paràmetres:    
+            :box: Capsa a la qual volem afegir un widget.
+            :widget: Widget que volem afegir a la capses.
+            :expand(boolean): Si vols que el widget s'expandeixi per omplenar el espai lliure de la capsa, altrament, el widget mantindrà el seu tamany original.
+            :fill(boolean): Si vols que el widget ompleni el espai disponible dintre de l'àrea que se li assgina a la capsa.
+            :padding: Marge en píxels entre el widget i la capsa.
+        """
+        def add_widget_box(self,box,widget,expand,fill,padding):
+            box.pack_start(widget, expand, fill, padding)  
+        
+        """
+        Utilitzem el llenguatge CSS per editar els widgets.
+        Paràmetres:
+            :widget: Widget que volem editar.
+            :color_fons: Color desijat del fons del widget.
+            :color_text: Color desijat del text del widget.
+            :padding: Marge entre el text i la seva vora.
+            :border_radius: Radi de curvatura de la vora del widget.
+        """
+        def configure_style(self,widget,color_fons,color_text,padding,border_radius):
+                                                                                           #Creem la cadena de text que conté regles CSS dinàmicament utilitzant f-strings.
+            css = f"""                                                                         
+            *{{
+                background-color: {color_fons};  
+                color: {color_text};                  
+                padding: {padding}px;                  
+                border-radius: {border_radius}px;   
+            }}
+        """
+            self.editor_css.load_from_data(css.encode())                                         #Carreguem les regles d'estil CSS del string "css" en format de bytes al proveïdor CSS que hem instanciat al mètode __init__.
+            style_context = widget.get_style_context()                                           #Obtenim accés a la informació del stil del widget per poder modificarl-lo.
+            style_context.add_provider(self.editor_css,Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)  #Editem el stil del widget amb les caràcteristiques carregades al objecte editor_css.
 
-"""
+        """
 Classe que permet gestionar les finestres
 """
 class Application(Gtk.Application):
