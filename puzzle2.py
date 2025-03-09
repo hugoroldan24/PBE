@@ -92,7 +92,7 @@ class MyWindow(Gtk.ApplicationWindow):
     """
     def rf_reading_task(self):
         self.myReader.read_uid()                                        #Executa el mètode del puzzle1 per tal d'obtenir el uid                   
-        GLib.idle_add(self.update_window, myReader.uid)                 #El que fem es fer que el fil secundari faci que s'executi el mètode update_window des de el fil principal per actualitzar la interfaç de forma segura. Passem també la uid com argument
+        GLib.idle_add(self.update_window, self.myReader.uid)                 #El que fem es fer que el fil secundari faci que s'executi el mètode update_window des de el fil principal per actualitzar la interfaç de forma segura. Passem també la uid com argument
    
     """
     Un cop es detecta una lectura, es crea el botó "Clear", es modifica el label de la capsa 1 i es mostra el uid per pantalla.
@@ -113,7 +113,7 @@ class MyWindow(Gtk.ApplicationWindow):
     Torna la finestra a l'estat inicial un cop polsem el botó "Clear".
     """    
     def reset_window(self):
-         self.wM.configure_style(self.wM.labels[0],"blue","black","0",0")
+         self.wM.configure_style(self.wM.labels[0],"#4682B4","black","0",0")
          self.wM.labels[0].set_text(f"""""""                    Benvingut!
                                           Siusplau, identifique-vos apropant el vostre carnet de la UPC """)
          self.wM.buttons[1].destroy()
