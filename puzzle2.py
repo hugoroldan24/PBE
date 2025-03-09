@@ -200,14 +200,14 @@ Classe que permet gestionar la aplicació principal, gestiona les finestres. En 
 """
 class Application(Gtk.Application):
     def __init__(self):
-        super().__init__()
-         self.window = myWindow(widgetManager())                 #Instanciem una finestra i passem un objecte widgetManager per paràmetre.
-         self.window.configure_window(400,300,Gtk.WindowPosition.CENTER,"PUZZLE2")        #Configurem la finestra.
-         self.window.connect("destroy",self.quit)                   #La finestra es podrà esborrar de forma manual eliminant la pestanya o clicant a la X.
+        super().__init__()         
     """
     Mètode que s'executa cuan es crida la funció .run() a objecte d'aquesta mateixa classe.
     """
     def do_activate(self):       
+        self.window = myWindow(widgetManager())                 #Instanciem una finestra i passem un objecte widgetManager per paràmetre.
+        self.window.configure_window(400,300,Gtk.WindowPosition.CENTER,"PUZZLE2")        #Configurem la finestra.
+        self.window.connect("destroy",self.quit)                   #La finestra es podrà esborrar de forma manual eliminant la pestanya o clicant a la X.
         self.window.start_window()                              #Arranquem la finestra.
         self.window.present()                                   #Mostrem la finestra.
                                                                         
