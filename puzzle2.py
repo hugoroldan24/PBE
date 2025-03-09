@@ -84,7 +84,7 @@ class MyWindow(Gtk.ApplicationWindow):
     Crea i arrenca el fil auxiliar.
     """
     def start_reading_thread(self):
-        thread = threading.Thread(target=self.rf_reading_task)          #El thread executarà la funció passada per argument
+        self.thread = threading.Thread(target=self.rf_reading_task)          #El thread executarà la funció passada per argument
         self.thread.start()
         
     """
@@ -207,7 +207,7 @@ class Application(Gtk.Application):
     """
     def do_activate(self):
         window = myWindow(widgetManager())                 #Instanciem una finestra i passem un objecte widgetManager per paràmetre.
-        window.configure_window(400,300,,"PUZZLE2")        #Configurem la finestra.
+        window.configure_window(400,300,Gtk.WindowPosition.CENTER,"PUZZLE2")        #Configurem la finestra.
         win.connect("destroy",self.quit)                   #La finestra es podrà esborrar de forma manual eliminant la pestanya o clicant a la X.
         window.start_window()                              #Arranquem la finestra.
         window.present()                                   #Mostrem la finestra.
