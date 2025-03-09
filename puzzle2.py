@@ -22,7 +22,7 @@ class MyWindow(Gtk.ApplicationWindow):
     def __init__(self,widgetManager):
         super().__init__()                                    #Truquem a la funció __init__ de la classe Gtk.ApplicationWindow.
         self.wM = widgetManager()                             #Instanciem un objecte de la clase widgetManager, s'encarregarà de gestionar tot lo relacionat amb els wadgets.
-        myReader = Rfid_522()                                 # Instancia un objecte de la classe Rfid_522() de la llibreria puzzle1.
+        self.myReader = Rfid_522()                                 # Instancia un objecte de la classe Rfid_522() de la llibreria puzzle1.
     """ 
     Configura la finestra amb els paràmetres escollits.
     Paràmetres:
