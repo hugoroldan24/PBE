@@ -7,14 +7,14 @@ sudo apt install gir1.2-gtk-3.0
 import gi
 import puzzle1 
 import threading 
-gi.require_version("Gtk", "3.0")                          #Indiquem que volem fer servir GTK3
-from gi.repository import Gtk, GLib                             #Importem desde el repositori de gi la llibreria Gtk que conté les classes y mètodes per crear la interfaç. 
+gi.require_version("Gtk", "3.0")                              #Indiquem que volem fer servir GTK3
+from gi.repository import Gtk, GLib                           #Importem desde el repositori de gi la llibreria Gtk que conté les classes y mètodes per crear la interfaç. 
 
-class MyWindow(Gtk.Window):  #Clase relacionada amb la finestra de la aplicació. La classe hereda la clase Gtk.Window de gtk3
+class MyWindow(Gtk.ApplicationWindow):  #Clase relacionada amb la finestra de la aplicació. La classe hereda la clase Gtk.Window de gtk3
     def __init__(self,widgetManager,widgetEditor):
-        super().__init__()                                 #Truquem a la funció __init__ de la classe Gtk.Window     
-        self.wM = widgetManager()                            #Instanciem un objecte de la clase widgetManager, s'encarregarà de gestionar tot lo relacionat amb els wadgets
-        myReader = Rfid_522()                                  # Instancia un objecte de la classe Rfid_522() de la llibreria puzzle1  
+        super().__init__()                                    #Truquem a la funció __init__ de la classe Gtk.Window     
+        self.wM = widgetManager()                             #Instanciem un objecte de la clase widgetManager, s'encarregarà de gestionar tot lo relacionat amb els wadgets
+        myReader = Rfid_522()                                 # Instancia un objecte de la classe Rfid_522() de la llibreria puzzle1  
     def configure_window(self,amplada,altura,posició,titol):
         self.set_title(titol) 
         self.set_default_size(amplada,altura)
