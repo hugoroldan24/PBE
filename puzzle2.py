@@ -133,7 +133,7 @@ class widgetManager:
             self.boxes = []
             self.buttons = []
             self.labels = []
-            editor_css = Gtk.CssProvider()                             #Creem l'objecte que controlarà les regles d'estil CSS.      
+            self.editor_css = Gtk.CssProvider()                             #Creem l'objecte que controlarà les regles d'estil CSS.      
         
         """
         Crea un label.
@@ -149,9 +149,8 @@ class widgetManager:
             :orientation: Orientació de la capsa (horitzontal, vertical).
             :spacing: Quantitat d'espai que deixaran els widgets de la capsa entre ells.
         """
-        def create_box(self,orientation,spacing):
-            box = Gtk.Box(orientation=orientation,spacing=spacing)
-            self.boxes.append(box)                                      #Guardem la capsa al vector boxes[] de la classe.
+        def create_box(self,orientation,spacing): 
+            self.boxes.append(Gtk.Box(orientation=orientation,spacing=spacing))                                      #Guardem la capsa al vector boxes[] de la classe.
         
         """
         Crea un botó.
@@ -193,8 +192,8 @@ class widgetManager:
             }}
         """
             self.editor_css.load_from_data(css.encode())                                         #Carreguem les regles d'estil CSS del string "css" en format de bytes al proveïdor CSS que hem instanciat al mètode __init__.
-            style_context = widget.get_style_context()                                           #Obtenim accés a la informació del stil del widget per poder modificarl-lo.
-            style_context.add_provider(self.editor_css,Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)  #Editem el stil del widget amb les caràcteristiques carregades al objecte editor_css.
+            self.style_context = widget.get_style_context()                                           #Obtenim accés a la informació del stil del widget per poder modificarl-lo.
+            self.style_context.add_provider(self.editor_css,Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)  #Editem el stil del widget amb les caràcteristiques carregades al objecte editor_css.
 
 """
 Classe que permet gestionar la aplicació principal, gestiona les finestres. En aquest cas només s'utiliza una.
@@ -202,15 +201,15 @@ Classe que permet gestionar la aplicació principal, gestiona les finestres. En 
 class Application(Gtk.Application):
     def __init__(self):
         super().__init__()
+         self.window = myWindow(widgetManager())                 #Instanciem una finestra i passem un objecte widgetManager per paràmetre.
+         self.window.configure_window(400,300,Gtk.WindowPosition.CENTER,"PUZZLE2")        #Configurem la finestra.
+         self.window.connect("destroy",self.quit)                   #La finestra es podrà esborrar de forma manual eliminant la pestanya o clicant a la X.
     """
     Mètode que s'executa cuan es crida la funció .run() a objecte d'aquesta mateixa classe.
     """
-    def do_activate(self):
-        window = myWindow(widgetManager())                 #Instanciem una finestra i passem un objecte widgetManager per paràmetre.
-        window.configure_window(400,300,Gtk.WindowPosition.CENTER,"PUZZLE2")        #Configurem la finestra.
-        win.connect("destroy",self.quit)                   #La finestra es podrà esborrar de forma manual eliminant la pestanya o clicant a la X.
-        window.start_window()                              #Arranquem la finestra.
-        window.present()                                   #Mostrem la finestra.
+    def do_activate(self):       
+        self.window.start_window()                              #Arranquem la finestra.
+        self.window.present()                                   #Mostrem la finestra.
                                                                         
 if __name__ == "__main__":        
       app = Application()                                   #Instanciem un objecte de la classe Application
