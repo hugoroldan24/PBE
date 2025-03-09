@@ -10,14 +10,17 @@ import threading
 gi.require_version("Gtk", "3.0")                              #Indiquem que volem fer servir GTK3
 from gi.repository import Gtk, GLib                           #Importem desde el repositori de gi la llibreria Gtk i GLib que conté les classes i mètodes per crear la interfaç i interactuar amb threads auxiliars respectivament. 
 
-class MyWindow(Gtk.ApplicationWindow):  #Clase relacionada amb la finestra de la aplicació. La classe hereda la clase Gtk.Window de gtk3
+"""
+Classe per configurar la finestra d'una aplicació i els seus elements. La classe hereda la classa Gtk.ApplicationWindow
+"""
+class MyWindow(Gtk.ApplicationWindow):  
     """
     Inicialitza un objecte de la classe MyWindow.
     Paràmetres:
         :widgetManager: Objecte de la classe widgetManager per gestionar els widgets
     """
     def __init__(self,widgetManager):
-        super().__init__()                                    #Truquem a la funció __init__ de la classe Gtk.Window.
+        super().__init__()                                    #Truquem a la funció __init__ de la classe Gtk.ApplicationWindow.
         self.wM = widgetManager()                             #Instanciem un objecte de la clase widgetManager, s'encarregarà de gestionar tot lo relacionat amb els wadgets.
         myReader = Rfid_522()                                 # Instancia un objecte de la classe Rfid_522() de la llibreria puzzle1.
     """ 
@@ -65,7 +68,7 @@ class MyWindow(Gtk.ApplicationWindow):  #Clase relacionada amb la finestra de la
     """
     Executem els 3 mètodes anterior. Iniciem el thread auxiliar per llegir el carnet UPC i mostrem tots els widgets de la finestra.
     """
-     def start_window(self):    
+    def start_window(self):    
         self.start_boxes()
         self.start_labels()
         self.start_buttons()
@@ -76,12 +79,14 @@ class MyWindow(Gtk.ApplicationWindow):  #Clase relacionada amb la finestra de la
     """
     def exit_button_pressed(self):
         Gtk.main_quit()
+        
     """
-    Crea i arrenca el Thread auxiliar.
+    Crea i arrenca el fil auxiliar.
     """
-     def start_reading_thread(self):
+    def start_reading_thread(self):
         thread = threading.Thread(target=self.rf_reading_task)          #El thread executarà la funció passada per argument
         self.thread.start()
+        
     """
     Funció que executarà el thread auxiliar. GTK no es thread-safe, per tant per evitar problemes hem de actualitzar la interfaç des de el fil principal, no desde el secundari.
     """
@@ -89,12 +94,12 @@ class MyWindow(Gtk.ApplicationWindow):  #Clase relacionada amb la finestra de la
         self.myReader.read_uid()                                        #Executa el mètode del puzzle1 per tal d'obtenir el uid                   
         GLib.idle_add(self.update_window, myReader.uid)                 #El que fem es fer que el fil secundari faci que s'executi el mètode update_window des de el fil principal per actualitzar la interfaç de forma segura. Passem també la uid com argument
    
-     """
-     Un cop es detecta una lectura, es crea el botó "Clear", es modifica el label de la capsa 1 i es mostra el uid per pantalla.
-     Paràmetres:
-          :uid: Identificador de la tarjeta obtingut a la lectura.
-     """
-     def update_window(self,uid):
+    """
+    Un cop es detecta una lectura, es crea el botó "Clear", es modifica el label de la capsa 1 i es mostra el uid per pantalla.
+    Paràmetres:
+        :uid: Identificador de la tarjeta obtingut a la lectura.
+    """
+    def update_window(self,uid):
         self.wM.configure_style(self.wM.labels[0],"green","black","0",0")
         self.wM.labels[0].set_text(f"""                    Tarjeta detectada satisfactòriament!
                                                                      uid: {uid}""")
@@ -103,10 +108,11 @@ class MyWindow(Gtk.ApplicationWindow):  #Clase relacionada amb la finestra de la
         self.wM.add_widget_box(self.wM.boxes[0],self.wM.buttons[1],False,False,0)    #Introduim el botó Clear a la capsa 0 (inferior)
         self.wM.buttons[1].set_halign(Gtk.Align.CENTER)                              #Col·loquem el botó al centre de la capsa
         self.wM.buttons[1].connect("clicked",self.reset_window)                      #S'executarà el mètode reset_window() quan es pressioni el botó "Clear"
+         
     """
     Torna la finestra a l'estat inicial un cop polsem el botó "Clear".
     """    
-     def reset_window(self):
+    def reset_window(self):
          self.wM.configure_style(self.wM.labels[0],"blue","black","0",0")
          self.wM.labels[0].set_text(f"""""""                    Benvingut!
                                           Siusplau, identifique-vos apropant el vostre carnet de la UPC """)
