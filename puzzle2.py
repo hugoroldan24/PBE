@@ -196,8 +196,8 @@ class widgetManager:
             style_context = widget.get_style_context()                                           #Obtenim accés a la informació del stil del widget per poder modificarl-lo.
             style_context.add_provider(self.editor_css,Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)  #Editem el stil del widget amb les caràcteristiques carregades al objecte editor_css.
 
-        """
-Classe que permet gestionar les finestres
+"""
+Classe que permet gestionar la aplicació principal, gestiona les finestres. En aquest cas només s'utiliza una.
 """
 class Application(Gtk.Application):
     def __init__(self):
