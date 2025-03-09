@@ -45,8 +45,8 @@ class MyWindow(Gtk.ApplicationWindow):
         self.wM.create_box(Gtk.Orientation.HORIZONTAL,0)                                  #Creem la capsa 0 (inferior).
         self.wM.create_box(Gtk.Orientation.HORIZONTAL,0)                                  #Creem la capsa 1 (superior).
         self.wM.create_box(Gtk.Orientation.VERTICAL,0)                                    #Creem la capsa 2 (conté les capses 0 i 1).
-        self.wM.add_widget_box(self.wM.boxes[2],self.wM.boxs[1],True,True,0)              #Afegim la capsa 1 (superior) a la capsa 2 (principal).
-        self.wM.add_widget_box(self.wM.boxes[2],self.wM.boxs[0],False,False,0)            #Afegim la capsa 0 (inferior) a la capsa 2 (principal).
+        self.wM.add_widget_box(self.wM.boxes[2],self.wM.boxes[1],True,True,0)              #Afegim la capsa 1 (superior) a la capsa 2 (principal).
+        self.wM.add_widget_box(self.wM.boxes[2],self.wM.boxes[0],False,False,0)            #Afegim la capsa 0 (inferior) a la capsa 2 (principal).
         self.add(self.wM.boxes[2])                                                        #Afegim la capsa principal a la finestra, aquesta capsa conté tots els wadgets.
     """
     Instancia els labels que es faràn servir inicialment. També configura les seves característiques i les afegeix a la Capsa 1.
