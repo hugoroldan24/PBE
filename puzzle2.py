@@ -100,7 +100,7 @@ class MyWindow(Gtk.ApplicationWindow):
         :uid: Identificador de la tarjeta obtingut a la lectura.
     """
     def update_window(self,uid):
-        self.wM.configure_style(self.wM.labels[0],"green","black","0",0")
+        self.wM.configure_style(self.wM.labels[0],"green","black","0","0")
         self.wM.labels[0].set_text(f"""                    Tarjeta detectada satisfactòriament!
                                                                      uid: {uid}""")
         self.wM.create_button("Clear")                                               #Creem el botó "Clear", aquest es guardarà a la posició 1 del vector de botons del objecte de la classe widgetManager
