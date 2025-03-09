@@ -119,7 +119,12 @@ class MyWindow(Gtk.ApplicationWindow):
          self.wM.buttons[1].destroy()
          self.thread.start()
 
-
+"""
+Aquesta classe s'encarrega de fer una total gestió dels widgets. La seva funció es crear, modificar i emmagetzemar els widgets segons com l'objecte de la classe MyWindow demani.
+S'ha de considerar que al executar els mètodes per crear widgets i afegirlos als seus respectius vectors, aquests estaran ordenats al vector de widgets segons l'ordre de crida del seu mètode de creació. 
+Per exemple, si es crida primer 'create_label(String1)' i seguidament 'create_label(String2)', el label String1 es guardarà a labels[0] o String2 a labels[1], però si executes primer 'create_label(String2)' i després
+'create_label(String1)', l'ordre al vector labels[] s'haurà invertit.
+"""
 class widgetManager:
     """
     Instancia un objecte de la classe widggetManager. Crea els vectors que contindran les capses, botons i labels que es vaguin creant.
