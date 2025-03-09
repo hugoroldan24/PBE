@@ -85,6 +85,7 @@ class MyWindow(Gtk.ApplicationWindow):
     """
     def start_reading_thread(self):
         self.thread = threading.Thread(target=self.rf_reading_task)          #El thread executarà la funció passada per argument
+        self.thread.daemon = True                                            #Fa que el fil termini d'executar (encara que no hagui llegui cap uid) si la finestra es tanca.
         self.thread.start()
         
     """
