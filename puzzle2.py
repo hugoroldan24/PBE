@@ -119,7 +119,7 @@ class MyWindow(Gtk.ApplicationWindow):
                                           Siusplau, identifique-vos apropant el vostre carnet de la UPC """)
          self.clear_button.destroy()                                                                        #Eliminem el botó clear
          self.myReader.uid = None                                                                           #Esborrem la uid prèvia
-         self.thread.start()                                                                                #Tornem a executar el fil secundari per poder tornar a lleguir una uid.
+         self.start_reading_thread()                                                                               #Tornem a executar el fil secundari per poder tornar a lleguir una uid.
         
 
 """
@@ -216,8 +216,8 @@ class Application(Gtk.Application):
         self.window.present()                                                            #Mostrem la finestra.
                                                                         
 if __name__ == "__main__":        
-      self.app = Application()                                                                #Instanciem un objecte de la classe Application
-      self.app.run()                                                                          #Arrenquem la aplicació
+      app = Application()                                                                #Instanciem un objecte de la classe Application
+      app.run()                                                                          #Arrenquem la aplicació
     
 
 
