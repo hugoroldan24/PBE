@@ -115,7 +115,7 @@ class MyWindow(Gtk.ApplicationWindow):
     """    
     def reset_window(self):
          self.wM.configure_style(self.welcome_label,"#4682B4","black","0",0")
-         self.welcome_label.set_text(f"""                 Benvingut!
+         self.welcome_label.set_text("""                 Benvingut!
                                           Siusplau, identifique-vos apropant el vostre carnet de la UPC """)
          self.clear_button.destroy()                                                                        #Eliminem el botó clear
          self.myReader.uid = None                                                                           #Esborrem la uid prèvia
