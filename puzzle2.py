@@ -42,29 +42,29 @@ class MyWindow(Gtk.ApplicationWindow):
     La capsa inferior contindrà els botons de Sortir i Clear, la superior els labels de text.
     """
     def start_boxes(self):     
-        self.wM.create_box(Gtk.Orientation.HORIZONTAL,0)                                  #Creem la capsa 0 (inferior).
-        self.wM.create_box(Gtk.Orientation.HORIZONTAL,0)                                  #Creem la capsa 1 (superior).
-        self.wM.create_box(Gtk.Orientation.VERTICAL,0)                                    #Creem la capsa 2 (conté les capses 0 i 1).
-        self.wM.add_widget_box(self.wM.boxes[2],self.wM.boxes[1],True,True,0)              #Afegim la capsa 1 (superior) a la capsa 2 (principal).
-        self.wM.add_widget_box(self.wM.boxes[2],self.wM.boxes[0],False,False,0)            #Afegim la capsa 0 (inferior) a la capsa 2 (principal).
-        self.add(self.wM.boxes[2])                                                        #Afegim la capsa principal a la finestra, aquesta capsa conté tots els wadgets.
+        self.lower_box = self.wM.create_box(Gtk.Orientation.HORIZONTAL,0)                                  
+        self.upper_box = self.wM.create_box(Gtk.Orientation.HORIZONTAL,0)                                  #Creem la capsa 1 (superior).
+        self.main_box = self.wM.create_box(Gtk.Orientation.VERTICAL,0)                                    #Creem la capsa 2 (conté les capses 0 i 1).
+        self.wM.add_widget_box(self.main_box,self.upper_box,True,True,0)              #Afegim la capsa 1 (superior) a la capsa 2 (principal).
+        self.wM.add_widget_box(self.main_box,self.lower_box,False,False,0)            #Afegim la capsa 0 (inferior) a la capsa 2 (principal).
+        self.add(self.main_box)                                                        #Afegim la capsa principal a la finestra, aquesta capsa conté tots els wadgets.
     """
     Instancia els labels que es faràn servir inicialment. També configura les seves característiques i les afegeix a la Capsa 1.
     """
     def start_labels(self):
-        self.wM.create_label(""""                    Benvingut!                            
+        self.welcome_label = self.wM.create_label(""""                    Benvingut!                            
                                           Siusplau, identifique-vos apropant el vostre carnet de la UPC """)
-        self.wM.configure_style(self.wM.labels[0],"#4682B4","black","0","0")                               #Configurem l'estil del Label de benvinguda.
-        self.wM.add_widget_box(self.wM.boxes[1],self.wM.labels[0],True,True,0)                             #Afegim el label de benvinguda a la capsa 1 (superior).
+        self.wM.configure_style(self.welcome_label,"#4682B4","black","0","0")                               #Configurem l'estil del Label de benvinguda.
+        self.wM.add_widget_box(self.wM.boxes[1],self.welcome_label,True,True,0)                             #Afegim el label de benvinguda a la capsa 1 (superior).
     """
     Instancia els botons que es faràn servil inicialmente. Configura les seves característiques i els afegeix a la Capsa 0.
     """
     def start_buttons(self):
-        self.wM.create_button("Surt")                                                       #Creem el botó de sortida.
-        self.wM.buttons[0].connect("clicked",self.exit_button_pressed)                      #S'executarà la funció "exit_buttom_pressed quan pressionem el botó.
-        self.wM.configure_style(self.wM.buttons[0],"red","black","0","20")                  #Configurem l'estil del botó de sortida.
-        self.wM.buttons[0].set_halign(Gtk.Align.START)                                      #Situem el botó de sortida a la esquerra de la caixa.
-        self.wM.add_widget_box(self.wM.boxes[0],self.wM.buttons[0],False,False,0)           #Afegim el botó "Surt" a la capsa 0 (inferior).
+        self.exit_button = self.wM.create_button("Surt")                                                       #Creem el botó de sortida.
+        self.exit_button.connect("clicked",self.exit_button_pressed)                      #S'executarà la funció "exit_buttom_pressed quan pressionem el botó.
+        self.wM.configure_style(self.exit_button,"red","black","0","20")                  #Configurem l'estil del botó de sortida.
+        self.exit_button.set_halign(Gtk.Align.START)                                      #Situem el botó de sortida a la esquerra de la caixa.
+        self.wM.add_widget_box(self.exit_button,False,False,0)           #Afegim el botó "Surt" a la capsa 0 (inferior).
     """
     Executem els 3 mètodes anterior. Iniciem el thread auxiliar per llegir el carnet UPC i mostrem tots els widgets de la finestra.
     """
@@ -101,23 +101,23 @@ class MyWindow(Gtk.ApplicationWindow):
         :uid: Identificador de la tarjeta obtingut a la lectura.
     """
     def update_window(self,uid):
-        self.wM.configure_style(self.wM.labels[0],"green","black","0","0")
-        self.wM.labels[0].set_text(f"""                    Tarjeta detectada satisfactòriament!
+        self.wM.configure_style(self.welcome_label,"green","black","0","0")
+        self.welcome_label.set_text(f"""                    Tarjeta detectada satisfactòriament!
                                                                      uid: {uid}""")
-        self.wM.create_button("Clear")                                               #Creem el botó "Clear", aquest es guardarà a la posició 1 del vector de botons del objecte de la classe widgetManager
-        self.wM.configure_style(self.wM.buttons[1],"gray","black","0","20")
-        self.wM.add_widget_box(self.wM.boxes[0],self.wM.buttons[1],False,False,0)    #Introduim el botó Clear a la capsa 0 (inferior)
-        self.wM.buttons[1].set_halign(Gtk.Align.CENTER)                              #Col·loquem el botó al centre de la capsa
-        self.wM.buttons[1].connect("clicked",self.reset_window)                      #S'executarà el mètode reset_window() quan es pressioni el botó "Clear"
+        self.clear_button = self.wM.create_button("Clear")                                               #Creem el botó "Clear", aquest es guardarà a la posició 1 del vector de botons del objecte de la classe widgetManager
+        self.wM.configure_style(self.clear_button,"gray","black","0","20")
+        self.wM.add_widget_box(self.upper_box,self.clear_button,False,False,0)    #Introduim el botó Clear a la capsa 0 (inferior)
+        self.clear_button.set_halign(Gtk.Align.CENTER)                              #Col·loquem el botó al centre de la capsa
+        self.clear_button.connect("clicked",self.reset_window)                      #S'executarà el mètode reset_window() quan es pressioni el botó "Clear"
          
     """
     Torna la finestra a l'estat inicial un cop polsem el botó "Clear".
     """    
     def reset_window(self):
-         self.wM.configure_style(self.wM.labels[0],"#4682B4","black","0",0")
-         self.wM.labels[0].set_text(f"""""""                    Benvingut!
+         self.wM.configure_style(self.welcome_label,"#4682B4","black","0",0")
+         self.welcome_label.set_text(f"""""""                    Benvingut!
                                           Siusplau, identifique-vos apropant el vostre carnet de la UPC """)
-         self.wM.buttons[1].destroy()
+         self.clear_button.destroy()
          self.thread.start()
 
 """
@@ -131,9 +131,7 @@ class widgetManager:
         Instancia un objecte de la classe widggetManager. Crea els vectors que contindran les capses, botons i labels que es vaguin creant.
         """
         def __init__(self):
-            self.boxes = []
-            self.buttons = []
-            self.labels = []
+           
             self.editor_css = Gtk.CssProvider()                             #Creem l'objecte que controlarà les regles d'estil CSS.      
         
         """
@@ -142,7 +140,7 @@ class widgetManager:
             :text: Text que es vol mostrar al label.
         """   
         def create_label(self,text):
-            self.labels.append(Gtk.Label(label=text))                   #Guardem el label al vector labels[] de la classe.
+          return Gtk.Label(label=text)                               #Creem un label i el retornem.
         
         """
         Crea una capsa.
@@ -151,7 +149,7 @@ class widgetManager:
             :spacing: Quantitat d'espai que deixaran els widgets de la capsa entre ells.
         """
         def create_box(self,orientation,spacing): 
-            self.boxes.append(Gtk.Box(orientation=orientation,spacing=spacing))                                      #Guardem la capsa al vector boxes[] de la classe.
+            return Gtk.Box(orientation=orientation,spacing=spacing)                                     #Creem la capsa i la retornem.
         
         """
         Crea un botó.
@@ -159,7 +157,7 @@ class widgetManager:
             :text: Text que contindrà el botó.
         """          
         def create_button(self,text):                        
-            self.botons.append(Gtk.Button(label=text))                 #Guardem el botó al vector buttons[] de la classe.         
+          return Gtk.Button(label=text)                #Creem el botó i el retornem         
             
         """
         Afegim el widget a la capsa passada per argument.
