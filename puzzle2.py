@@ -52,7 +52,7 @@ class MyWindow(Gtk.ApplicationWindow):
     Instancia els labels que es faràn servir inicialment. També configura les seves característiques i les afegeix a la capsa superior.
     """
     def start_labels(self):
-        self.welcome_label = self.wM.create_label(""""                    Benvingut!                            
+        self.welcome_label = self.wM.create_label("""                    Benvingut!                            
                                           Siusplau, identifique-vos apropant el vostre carnet de la UPC """)
         self.wM.configure_style(self.welcome_label,"#4682B4","black","0","0")                                 #Configurem l'estil del Label de benvinguda.
         self.wM.add_widget_box(self.wM.boxes[1],self.welcome_label,True,True,0)                               #Afegim el label de benvinguda a la capsa superior.
@@ -115,7 +115,7 @@ class MyWindow(Gtk.ApplicationWindow):
     """    
     def reset_window(self):
          self.wM.configure_style(self.welcome_label,"#4682B4","black","0",0")
-         self.welcome_label.set_text(f""""                   Benvingut!
+         self.welcome_label.set_text(f"""                 Benvingut!
                                           Siusplau, identifique-vos apropant el vostre carnet de la UPC """)
          self.clear_button.destroy()                                                                        #Eliminem el botó clear
          self.myReader.uid = None                                                                           #Esborrem la uid prèvia
