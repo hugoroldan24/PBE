@@ -46,12 +46,13 @@ class MyWindow(Gtk.ApplicationWindow):
     def start_boxes(self):     
         self.lower_box = self.wM.create_box(Gtk.Orientation.HORIZONTAL,0)                                  #Creem la capsa inferior que contindrà els butons
         self.upper_box = self.wM.create_box(Gtk.Orientation.HORIZONTAL,0)                                  #Creem la capsa superior que contindrà el label de text.
-        alineador_lower_box = Gtk.Alignment.new(0.5, 0, 1, 1)
-        alineador_lower_box.add(self.lower_box)
-        alineador_upper_box = Gtk.Alignment.new(0.5, 1, 1, 1)
-        alineador_upper_box.add(self.upper_box)
-        self.add(alineador_upper_box)
-        self.add(alineador_lower_box)
+        self.main_box = self.wM.create_box(Gtk.Orientation.VERTICAL,0)
+        self.wM.add_widget_box(self.main_box,self.upper_box,False,False,0) 
+        self.wM.add_widget_box(self.main_box,self.lower_box,False,False,0)
+        alineador = Gtk.Alignment.new(0.5, 0.5, 1, 1)
+        alineador.add(main_box)
+        self.add(alineador)
+       )
        
     """
     Instancia els labels que es faràn servir inicialment. També configura les seves característiques i les afegeix a la capsa superior.
