@@ -23,7 +23,7 @@ class MyWindow(Gtk.ApplicationWindow):
     """
     def __init__(self,widgetManager):
         super().__init__()                                         #Truquem a la funció __init__ de la classe Gtk.ApplicationWindow.
-        self.wM = widgetManager()                                  #Instanciem un objecte de la clase widgetManager, s'encarregarà de gestionar tot lo relacionat amb els widgets.
+        self.wM = widgetManager                                 
         self.myReader = Rfid_522()                                 #Instancia un objecte de la classe Rfid_522() de la llibreria puzzle1.
     """ 
     Configura la finestra amb els paràmetres escollits.
@@ -207,7 +207,7 @@ class Application(Gtk.Application):
     Mètode que s'executa cuan es crida la funció .run() a objecte d'aquesta mateixa classe.
     """
     def do_activate(self):       
-        self.window = myWindow(widgetManager())                                          #Instanciem una finestra i passem un objecte widgetManager per paràmetre.
+        self.window = MyWindow(widgetManager())                                          #Instanciem una finestra i passem un objecte widgetManager per paràmetre.
         self.window.configure_window(400,300,Gtk.WindowPosition.CENTER,"PUZZLE2")        #Configurem la finestra.
         self.window.connect("destroy",self.quit)                                         #La finestra es podrà esborrar de forma manual eliminant la pestanya o clicant a la X.
         self.window.start_window()                                                       #Arranquem la finestra.
