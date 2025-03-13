@@ -59,7 +59,7 @@ class MyWindow(Gtk.ApplicationWindow):
     def start_labels(self):
         self.welcome_label = self.wM.create_label(WELCOME_STRING)
         self.wM.configure_style(self.welcome_label,"#4682B4","black","0","0")                                 #Configurem l'estil del Label de benvinguda.
-        self.wM.add_widget_box(self.wM.boxes[1],self.welcome_label,True,True,0)                               #Afegim el label de benvinguda a la capsa superior.
+        self.wM.add_widget_box(self.upper_box,self.welcome_label,True,True,0)                               #Afegim el label de benvinguda a la capsa superior.
     """
     Instancia els botons que es faràn servil inicialmente. Configura les seves característiques i els afegeix a la Capsa 0.
     """
