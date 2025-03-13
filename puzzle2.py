@@ -212,6 +212,7 @@ class Application(Gtk.Application):
         self.window.connect("destroy",self.quit)                                         #La finestra es podrà esborrar de forma manual eliminant la pestanya o clicant a la X.
         self.window.start_window()                                                       #Arranquem la finestra.
         self.window.present()                                                            #Mostrem la finestra.
+        Gtk.main()
                                                                         
 if __name__ == "__main__":        
       app = Application()                                                                #Instanciem un objecte de la classe Application
