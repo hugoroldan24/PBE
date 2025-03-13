@@ -10,6 +10,8 @@ import threading
 gi.require_version("Gtk", "3.0")                              #Indiquem que volem fer servir GTK3
 from gi.repository import Gtk, GLib                           #Importem desde el repositori de gi la llibreria Gtk i GLib que conté les classes i mètodes per crear la interfaç i interactuar amb threads auxiliars respectivament. 
 
+WELCOME_STRING = """                    Benvingut!                            
+                                          Siusplau, identifique-vos apropant el vostre carnet de la UPC """
 """
 Classe per configurar la finestra d'una aplicació i els seus elements. La classe hereda la classa Gtk.ApplicationWindow
 """
@@ -52,8 +54,7 @@ class MyWindow(Gtk.ApplicationWindow):
     Instancia els labels que es faràn servir inicialment. També configura les seves característiques i les afegeix a la capsa superior.
     """
     def start_labels(self):
-        self.welcome_label = self.wM.create_label("""                    Benvingut!                            
-                                          Siusplau, identifique-vos apropant el vostre carnet de la UPC """)
+        self.welcome_label = self.wM.create_label(WELCOME_STRING)
         self.wM.configure_style(self.welcome_label,"#4682B4","black","0","0")                                 #Configurem l'estil del Label de benvinguda.
         self.wM.add_widget_box(self.wM.boxes[1],self.welcome_label,True,True,0)                               #Afegim el label de benvinguda a la capsa superior.
     """
@@ -114,9 +115,8 @@ class MyWindow(Gtk.ApplicationWindow):
     Torna la finestra a l'estat inicial un cop polsem el botó "Clear".
     """    
     def reset_window(self):
-         self.wM.configure_style(self.welcome_label,"#4682B4","black","0",0")
-         self.welcome_label.set_text("""                 Benvingut!
-                                          Siusplau, identifique-vos apropant el vostre carnet de la UPC """)
+         self.wM.configure_style(self.welcome_label,"#4682B4","black","0","0")
+         self.welcome_label.set_text(WELCOME_STRING)
          self.clear_button.destroy()                                                                        #Eliminem el botó clear
          self.myReader.uid = None                                                                           #Esborrem la uid prèvia
          self.start_reading_thread()                                                                               #Tornem a executar el fil secundari per poder tornar a lleguir una uid.
@@ -129,10 +129,8 @@ class widgetManager:
         """
         Instancia un objecte de la classe widggetManager. 
         """
-        def __init__(self):
-           
-            self.editor_css = Gtk.CssProvider()                             #Creem l'objecte que controlarà les regles d'estil CSS.      
-        
+        def __init__(self):         
+            self.editor_css = Gtk.CssProvider()                             #Creem l'objecte que controlarà les regles d'estil CSS.             
         """
         Crea un label.
         Paràmetres:
