@@ -44,14 +44,9 @@ class MyWindow(Gtk.ApplicationWindow):
     La capsa inferior contindrà els botons de Sortir i Clear, la superior els labels de text.
     """
     def start_boxes(self):     
-        self.lower_box = self.wM.create_box(Gtk.Orientation.HORIZONTAL,0)                                  #Creem la capsa inferior que contindrà els butons
-        self.upper_box = self.wM.create_box(Gtk.Orientation.HORIZONTAL,0)                                  #Creem la capsa superior que contindrà el label de text.
+       
         self.main_box = self.wM.create_box(Gtk.Orientation.VERTICAL,0)
-        self.wM.add_widget_box(self.main_box,self.upper_box,False,False,0) 
-        self.wM.add_widget_box(self.main_box,self.lower_box,False,False,0)
-        alineador = Gtk.Alignment.new(0.5, 0.5, 1, 1)
-        alineador.add(main_box)
-        self.add(alineador)
+        self.add(main_box)
        )
        
     """
@@ -59,16 +54,13 @@ class MyWindow(Gtk.ApplicationWindow):
     """
     def start_labels(self):
         self.welcome_label = self.wM.create_label(WELCOME_STRING)
-        self.wM.configure_style(self.welcome_label,"#4682B4","black","0","0")                                 #Configurem l'estil del Label de benvinguda.
-        self.wM.add_widget_box(self.upper_box,self.welcome_label,True,True,0)                               #Afegim el label de benvinguda a la capsa superior.
+        self.wM.add_widget_box(self.main_box,self.welcome_label,True,True,0)                                #Afegim el label de benvinguda a la capsa superior.
     """
     Instancia els botons que es faràn servil inicialmente. Configura les seves característiques i els afegeix a la Capsa 0.
     """
     def start_buttons(self):
         self.exit_button = self.wM.create_button("Surt")                                                       #Creem el botó de sortida.
         self.exit_button.connect("clicked",self.exit_button_pressed)                                           #S'executarà la funció "exit_buttom_pressed" quan pressionem el botó.
-        self.wM.configure_style(self.exit_button,"red","black","0","20")                                       #Configurem l'estil del botó de sortida.
-        self.exit_button.set_halign(Gtk.Align.START)                                                           #Situem el botó de sortida a la esquerra de la caixa.
         self.wM.add_widget_box(self.lower_box,self.exit_button,False,False,0)                                  #Afegim el botó "Surt" a la capsa inferior.
     """
     Executem els 3 mètodes anterior. Iniciem el thread auxiliar per llegir el carnet UPC i mostrem tots els widgets de la finestra.
@@ -111,7 +103,7 @@ class MyWindow(Gtk.ApplicationWindow):
                                                                      uid: {uid}""")
         self.clear_button = self.wM.create_button("Clear")                                               #Creem el botó "Clear", aquest es guardarà a la posició 1 del vector de botons del objecte de la classe widgetManager
         self.wM.configure_style(self.clear_button,"gray","black","0","20")                               #Editem l'estil del botó Clear
-        self.wM.add_widget_box(self.upper_box,self.clear_button,False,False,0)                           #Introduim el botó Clear a la capsa inferior
+        self.wM.add_widget_box(self.main_box,self.clear_button,False,False,0)                           #Introduim el botó Clear a la capsa inferior
         self.clear_button.set_halign(Gtk.Align.CENTER)                                                   #Col·loquem el botó al centre de la capsa
         self.clear_button.connect("clicked",self.reset_window)                                           #S'executarà el mètode reset_window() quan es pressioni el botó "Clear"
          
@@ -187,7 +179,7 @@ class widgetManager:
             :padding: Marge entre el text i la seva vora.
             :border_radius: Radi de curvatura de la vora del widget.
         """
-        def configure_style(self,widget,color_fons,color_text,padding,border_radius):
+        def configure_style(self):
                                                                                                    #Creem la cadena de text que conté regles CSS dinàmicament utilitzant f-strings.
             css = f"""                                                                         
             *{{
