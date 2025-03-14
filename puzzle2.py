@@ -200,12 +200,12 @@ class widgetManager:
                 padding: 60px;                  
                 border-radius: 20px;
                 font-size: 
+            }
+            
                 
         """
-            self.editor_css.load_from_data(css.encode())                                              #Carreguem les regles d'estil CSS del string "css" en format de bytes al proveïdor CSS que hem instanciat al mètode __init__.
-            self.style_context = widget.get_style_context()                                           #Obtenim accés a la informació del stil del widget per poder modificarl-lo.
-            self.style_context.add_provider(self.editor_css,Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)  #Editem el stil del widget amb les caràcteristiques carregades al objecte editor_css.
-
+            self.editor_css.load_from_data(css)                                             #Carreguem les regles d'estil CSS del string "css" en format de bytes al proveïdor CSS que hem instanciat al mètode __init__.
+            self.get_style_context().add_provider(self.editor_css,Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)                                           
 """
 Classe que permet gestionar la aplicació principal, gestiona les finestres. En aquest cas només hem de gestiona una finestra.
 """
