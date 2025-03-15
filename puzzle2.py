@@ -13,7 +13,9 @@ from gi.repository import Gtk, GLib                           #Importem desde el
 WELCOME_STRING = """                    Benvingut!                            
                                           Siusplau, identifique-vos apropant el vostre carnet de la UPC """
 
-green_color = Gdk.RGBA(0.0, 1.0, 0.0, 1.0)  # Color verd en format RGBA (R=0, G=1, B=0, A=1)
+GREEN_COLOR = Gdk.RGBA(0.0, 1.0, 0.0, 1.0)  # Color verd en format RGBA (R=0, G=1, B=0, A=1)
+BLUE_COLOR = Gdk.RGBA(0.0, 0, 1, 1.0)  # Color blau en format RGBA (R=0, G=0, B=1, A=1)
+
 """
 Classe per configurar la finestra d'una aplicació i els seus elements. La classe hereda la classa Gtk.ApplicationWindow
 """
@@ -104,23 +106,23 @@ class MyWindow(Gtk.ApplicationWindow):
         GLib.idle_add(self.update_window, self.myReader.uid)                 #El que fem es fer que el fil secundari faci que s'executi el mètode update_window des de el fil principal per actualitzar la interfaç de forma segura. Passem la uid com argument de la funció "update_window"
    
     """
-    Un cop es detecta una lectura, es crea el botó "Clear", es modifica el label de la capsa superior i es mostra el uid per pantalla.
+    Un cop es detecta una lectura, es crea el botó "Clear", es modifica el label de benvinguda i es mostra el uid per pantalla.
     Paràmetres:
         :uid: Identificador de la tarjeta obtingut a la lectura.
     """
     def update_window(self,uid):
-        self.wM.configure_style(self.welcome_label,"green","black","0","0")
+        self.wM.change_background_color(self.welcome_label,GREEN_COLOR)
         self.welcome_label.set_text(f"""                    Tarjeta detectada satisfactòriament!
                                                                      uid: {uid}""")
-        self.clear_button.set_visible(True)
+        self.set_widget_visible(self.clear_button,True)
          
     """
     Torna la finestra a l'estat inicial un cop polsem el botó "Clear".
     """    
     def reset_window(self):
-         self.wM.configure_style(self.welcome_label,"#4682B4","black","0","0")
+         self.wM.change_background_color(self.welcome_label,BLUE_COLOR)
          self.welcome_label.set_text(WELCOME_STRING)
-         self.clear_button.destroy()                                                                               #Eliminem el botó clear
+         self.set_widget_visible(self.clear_button,False)
          self.myReader.uid = None                                                                                  #Esborrem la uid prèvia
          self.start_reading_thread()                                                                               #Tornem a executar el fil secundari per poder tornar a lleguir una uid.
         
@@ -201,10 +203,13 @@ class widgetManager:
             :border_radius: Radi de curvatura de la vora del widget.
         """
         """
-        El paràmetre "color" ha de ser un objecte de la classe Gtk.RGBA.
+        Funció que modifica el color de fons de un widget. És útil si volem modificar el color de forma dinàmica un cop ja hem aplicat les regles CSS
+        Paràmetres:
+            :widget: Widget que volem editar.
+            :color: Color que volem introduir. Ha de ser un objecte de la glase Gtk.RGBA.
         """
         def change_backgroud_color(self,widget,color)
-            widget.override_background
+            widget.override_background_color(Gtk.StateFlags.NORMAL,color)
         def configure_style_CSS(self):
                                                                                                    #Creem la cadena de text que conté regles CSS dinàmicament utilitzant f-strings.
             css = b"""                                                                         
