@@ -64,7 +64,7 @@ class MyWindow(Gtk.ApplicationWindow):
     Instancia els botons que es faràn servil inicialmente. Configura les seves característiques i els afegeix a la Capsa 0.
     """
     def start_buttons(self):
-        self.exit_button = self.wM.create_button("Surt")                                                       #Creem el botó de sortida.
+        self.exit_button = self.wM.create_button("Exit")                                                       #Creem el botó de sortida.
         self.exit_button.connect("clicked",self.exit_button_pressed)                                           #S'executarà la funció "exit_buttom_pressed" quan pressionem el botó.
         self.wM.add_widget_box_end(self.main_box,self.exit_button, True, True, 0)
         self.wM.set_widget_name(self.exit_button,"exit_button")
