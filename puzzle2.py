@@ -114,7 +114,7 @@ class MyWindow(Gtk.ApplicationWindow):
         self.wM.change_background_color(self.welcome_label,GREEN_COLOR)
         self.welcome_label.set_text(f"""                    Tarjeta detectada satisfactòriament!
                                                                      uid: {uid}""")
-        self.set_widget_visible(self.clear_button,True)
+        self.wM.set_widget_visible(self.clear_button,True)
          
     """
     Torna la finestra a l'estat inicial un cop polsem el botó "Clear".
