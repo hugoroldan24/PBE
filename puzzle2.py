@@ -12,6 +12,8 @@ from gi.repository import Gtk, GLib                           #Importem desde el
 
 WELCOME_STRING = """                    Benvingut!                            
                                           Siusplau, identifique-vos apropant el vostre carnet de la UPC """
+
+green_color = Gdk.RGBA(0.0, 1.0, 0.0, 1.0)  # Color verd en format RGBA (R=0, G=1, B=0, A=1)
 """
 Classe per configurar la finestra d'una aplicació i els seus elements. La classe hereda la classa Gtk.ApplicationWindow
 """
@@ -47,23 +49,29 @@ class MyWindow(Gtk.ApplicationWindow):
        
         self.main_box = self.wM.create_box(Gtk.Orientation.VERTICAL,0)
         self.add(main_box)
-       )
+       
        
     """
     Instancia els labels que es faràn servir inicialment. També configura les seves característiques i les afegeix a la capsa superior.
     """
     def start_labels(self):
         self.welcome_label = self.wM.create_label(WELCOME_STRING)
-        self.main_box.pack_start(welcome_label, True, True, 0)
-        self.welcome_label.set_name("welcome_label")
+        self.wM.add_widget_box_start(self.main_box,self.welcome_label, True, True, 0)
+        self.wM.set_widget_name(self.welcome_label,"welcome_label")
     """
     Instancia els botons que es faràn servil inicialmente. Configura les seves característiques i els afegeix a la Capsa 0.
     """
     def start_buttons(self):
         self.exit_button = self.wM.create_button("Surt")                                                       #Creem el botó de sortida.
         self.exit_button.connect("clicked",self.exit_button_pressed)                                           #S'executarà la funció "exit_buttom_pressed" quan pressionem el botó.
-        self.main_box.pack_end(exit_button, True, True, 0)
-        self.exit_button.set_name("exit_button")
+        self.wM.add_widget_box_end(self.main_box,self.exit_button, True, True, 0)
+        self.wM.set_widget_name(self.exit_button,"exit_button")
+
+        self.clear_button = self.wM.create_button("Clear")                                                 #Creem el botó "Clear", aquest es guardarà a la posició 1 del vector de botons del objecte de la classe widgetManager
+        self.clear_button.connect("clicked",self.reset_window)                                             #S'executarà el mètode reset_window() quan es pressioni el botó "Clear"
+        self.wM.add_widget_box_end(self.main_box,self.clear_button,True,True,0)                            #Introduim el botó Clear a la capsa 
+        self.wM.set_widget_name(self.clear_button,"clear_button")
+        self.wM.set_widget_visible(self.clear_button,False)
     """
     Executem els 3 mètodes anterior. Iniciem el thread auxiliar per llegir el carnet UPC i mostrem tots els widgets de la finestra.
     """
@@ -71,6 +79,7 @@ class MyWindow(Gtk.ApplicationWindow):
         self.start_boxes()
         self.start_labels()
         self.start_buttons()
+        self.wM.configure_style_CSS()
         self.start_reading_thread()
         self.show_all()
     """
@@ -103,11 +112,7 @@ class MyWindow(Gtk.ApplicationWindow):
         self.wM.configure_style(self.welcome_label,"green","black","0","0")
         self.welcome_label.set_text(f"""                    Tarjeta detectada satisfactòriament!
                                                                      uid: {uid}""")
-        self.clear_button = self.wM.create_button("Clear")                                               #Creem el botó "Clear", aquest es guardarà a la posició 1 del vector de botons del objecte de la classe widgetManager
-        self.wM.configure_style(self.clear_button,"gray","black","0","20")                               #Editem l'estil del botó Clear
-        self.wM.add_widget_box(self.main_box,self.clear_button,False,False,0)                            #Introduim el botó Clear a la capsa inferior
-        self.clear_button.set_halign(Gtk.Align.CENTER)                                                   #Col·loquem el botó al centre de la capsa
-        self.clear_button.connect("clicked",self.reset_window)                                           #S'executarà el mètode reset_window() quan es pressioni el botó "Clear"
+        self.clear_button.set_visible(True)
          
     """
     Torna la finestra a l'estat inicial un cop polsem el botó "Clear".
@@ -136,7 +141,7 @@ class widgetManager:
         Return:
             Label: Returns a label with the specified text
         """   
-        def create_label(self,text):
+        def create_label(self,text):             
           return Gtk.Label(label=text)                               #Creem un label i el retornem.
         
         """
@@ -151,17 +156,17 @@ class widgetManager:
             return Gtk.Box(orientation=orientation,spacing=spacing)                                     #Creem la capsa i la retornem.
         
         """
-        Crea un botó.
+        Crea un botó. 
         Paràmetres:
             :text: Text que contindrà el botó.
         Return:
             Button: Returns a button with the specified text
         """          
-        def create_button(self,text):                        
-          return Gtk.Button(label=text)                #Creem el botó i el retornem         
+        def create_button(self,text):         
+          return Gtk.Button(label=text)               #Creem el botó i el retornem         
             
         """
-        Afegim el widget a la capsa passada per argument.
+        Afegim el widget al inici de la capsa passada per argument.
         Paràmetres:    
             :box: Capsa a la qual volem afegir un widget.
             :widget: Widget que volem afegir a la capses.
@@ -169,9 +174,23 @@ class widgetManager:
             :fill(boolean): Si vols que el widget ompleni el espai disponible dintre de l'àrea que se li assgina a la capsa.
             :padding: Marge en píxels entre el widget i la capsa.
         """
-        def add_widget_box(self,box,widget,expand,fill,padding):
-            box.pack_start(widget, expand, fill, padding)  
-        
+        def add_widget_box_start(self,box,widget,expand,fill,padding):
+            box.pack_start(widget, expand, fill, padding) 
+            """
+        Afegim el widget al inici de la capsa passada per argument.
+        Paràmetres:    
+            :box: Capsa a la qual volem afegir un widget.
+            :widget: Widget que volem afegir a la capses.
+            :expand(boolean): Si vols que el widget s'expandeixi per omplenar el espai lliure de la capsa, altrament, el widget mantindrà el seu tamany original.
+            :fill(boolean): Si vols que el widget ompleni el espai disponible dintre de l'àrea que se li assgina a la capsa.
+            :padding: Marge en píxels entre el widget i la capsa.
+        """  
+        def add_widget_box_end(self,box,widget,expand,fill,padding):
+            box.pack_end(widget, expand, fill, padding)
+        def set_widget_name(self,widget,name)
+            widget.set_name(name)
+        def set_widget_visible(self,widget,visibility)
+            widget.set_visible(visibility)
         """
         Utilitzem el llenguatge CSS per editar els widgets.
         Paràmetres:
@@ -181,7 +200,12 @@ class widgetManager:
             :padding: Marge entre el text i la seva vora.
             :border_radius: Radi de curvatura de la vora del widget.
         """
-        def configure_style(self):
+        """
+        El paràmetre "color" ha de ser un objecte de la classe Gtk.RGBA.
+        """
+        def change_backgroud_color(self,widget,color)
+            widget.override_background
+        def configure_style_CSS(self):
                                                                                                    #Creem la cadena de text que conté regles CSS dinàmicament utilitzant f-strings.
             css = b"""                                                                         
             #welcome_label{
@@ -196,6 +220,13 @@ class widgetManager:
             }
             #exit_button{
                 background-color: red;  
+                color: black;                  
+                padding: 60px;                  
+                border-radius: 20px;
+                font-size: 
+            }
+            #clear_button{
+                background-color: gray;  
                 color: black;                  
                 padding: 60px;                  
                 border-radius: 20px;
