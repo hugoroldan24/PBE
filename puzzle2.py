@@ -226,27 +226,28 @@ class widgetManager:
             border-radius: 10px;                    #Radi de curvatura de la vora del widget.
             margin-left: 5px;                       #Marge esquerra
             margin-right: 5px;                      #Marge dret
-            margin-bottom:                          #Marge inferior 
-            font-size:                              #Tamany del text
+            margin-bottom: 20px;                          #Marge inferior 
+            font-size: 20;                           #Tamany del text
             }
         #exit_button{
             background-color: red;  
             color: black;                  
             padding: 60px;                  
             border-radius: 20px;
-            font-size: 
+            font-size: 20;
             }
         #clear_button{
             background-color: gray;  
             color: black;                  
             padding: 60px;                  
             border-radius: 20px;
-            font-size: 
+            font-size: 20; 
             }
                             
          """
         self.editor_css.load_from_data(css)                                                             #Carreguem les regles d'estil CSS del string "css" al proveïdor CSS que hem instanciat al mètode __init__.
-        self.get_style_context().add_provider(self.editor_css,Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)  #Apliquem les regles CSS als widgets.
+        screen = Gdk.Screen.get_default()
+        Gtk.StyleContext.add_provider_for_screen(screen,self.editor_css,Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)  #Apliquem les regles CSS als widgets.
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
