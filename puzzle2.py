@@ -16,9 +16,9 @@ WELCOME_STRING = """                    Benvingut!
 GREEN_COLOR = Gdk.RGBA(0.0, 1.0, 0.0, 1.0)  # Color verd en format RGBA (R=0, G=1, B=0, A=1)
 BLUE_COLOR = Gdk.RGBA(0.0, 0, 1, 1.0)  # Color blau en format RGBA (R=0, G=0, B=1, A=1)
 
-"""
-Classe per configurar la finestra d'una aplicació i els seus elements. La classe hereda la classa Gtk.ApplicationWindow
-"""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+Classe per configurar la finestra d'una aplicació i els seus elements. La classe hereda la classe Gtk.ApplicationWindow
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 class MyWindow(Gtk.ApplicationWindow):  
     """
     Inicialitza un objecte de la classe MyWindow.
@@ -26,9 +26,10 @@ class MyWindow(Gtk.ApplicationWindow):
         :widgetManager: Objecte de la classe widgetManager per gestionar els widgets
     """
     def __init__(self,widgetManager):
-        super().__init__()                                         #Truquem a la funció __init__ de la classe Gtk.ApplicationWindow.
+        super().__init__()                                                #Truquem a la funció __init__ de la classe Gtk.ApplicationWindow.
         self.wM = widgetManager                                 
         self.myReader = puzzle1.Rfid_522()                                 #Instancia un objecte de la classe Rfid_522() de la llibreria puzzle1.
+      
     """ 
     Configura la finestra amb els paràmetres escollits.
     Paràmetres:
@@ -41,39 +42,35 @@ class MyWindow(Gtk.ApplicationWindow):
         self.set_title(titol) 
         self.set_default_size(amplada,altura)
         self.set_position(posició) 
+      
     """
     Instancia totes les capses que es faràn servir, les configura i les afegeix a la finestra.
-    Per tal de distribuir les capses de forma que quedi una a sobre de la altre, creo una capsa vertical i considero la capsa inferior i superior com si fossing widgets. 
-    Si configuro que la caixa superior tingui els paràmetres expand i fill com a True i la inferior com a False, en l'ordre que s'executa el codi, quedaràn col·locades com s'espera.
-    La capsa inferior contindrà els botons de Sortir i Clear, la superior els labels de text.
     """
-    def start_boxes(self):     
-       
-        self.main_box = self.wM.create_box(Gtk.Orientation.VERTICAL,0)
-        self.add(main_box)
-       
-       
+    def start_boxes(self):            
+        self.main_box = self.wM.create_box(Gtk.Orientation.VERTICAL,0)                                      #Creem una capsa amb orientació vertical
+        self.add(main_box)                                                                                  #Afegim la capsa a la finestra
+              
     """
-    Instancia els labels que es faràn servir inicialment. També configura les seves característiques i les afegeix a la capsa superior.
+    Instancia els labels que es faràn servir inicialment i els introdueix a la capsa principal
     """
     def start_labels(self):
-        self.welcome_label = self.wM.create_label(WELCOME_STRING)
-        self.wM.add_widget_box_start(self.main_box,self.welcome_label, True, True, 0)
-        self.wM.set_widget_name(self.welcome_label,"welcome_label")
+        self.welcome_label = self.wM.create_label(WELCOME_STRING)                                            #Creem el label amb el text passat per paràmetre
+        self.wM.add_widget_box_start(self.main_box,self.welcome_label, True, True, 0)                        #Afegim el label al inici de la capsa vertical (part superior)
+        self.wM.set_widget_name(self.welcome_label,"welcome_label")                                          #Posem un nom al widget per tal de aplicar-li les regles CSS
     """
     Instancia els botons que es faràn servil inicialmente. Configura les seves característiques i els afegeix a la Capsa 0.
     """
     def start_buttons(self):
-        self.exit_button = self.wM.create_button("Exit")                                                       #Creem el botó de sortida.
-        self.exit_button.connect("clicked",self.exit_button_pressed)                                           #S'executarà la funció "exit_buttom_pressed" quan pressionem el botó.
-        self.wM.add_widget_box_end(self.main_box,self.exit_button, True, True, 0)
+        self.exit_button = self.wM.create_button("Exit")                                                     #Creem el botó Exit.
+        self.exit_button.connect("clicked",self.exit_button_pressed)                                         #S'executarà la funció "exit_buttom_pressed" quan pressionem el botó.
+        self.wM.add_widget_box_end(self.main_box,self.exit_button, True, True, 0)                            #Afegim el botó al final de la capsa vertical (part inferior)
         self.wM.set_widget_name(self.exit_button,"exit_button")
 
-        self.clear_button = self.wM.create_button("Clear")                                                 #Creem el botó "Clear", aquest es guardarà a la posició 1 del vector de botons del objecte de la classe widgetManager
-        self.clear_button.connect("clicked",self.reset_window)                                             #S'executarà el mètode reset_window() quan es pressioni el botó "Clear"
-        self.wM.add_widget_box_end(self.main_box,self.clear_button,True,True,0)                            #Introduim el botó Clear a la capsa 
+        self.clear_button = self.wM.create_button("Clear")                                                   #Creem el botó Clear
+        self.clear_button.connect("clicked",self.reset_window)                                               #S'executarà el mètode reset_window() quan es pressioni el botó "Clear"
+        self.wM.add_widget_box_end(self.main_box,self.clear_button,True,True,0)                              #Introduim el botó Clear a la capsa 
         self.wM.set_widget_name(self.clear_button,"clear_button")
-        self.wM.set_widget_visible(self.clear_button,False)
+        self.wM.set_widget_visible(self.clear_button,False)                                                  #Inicialment, fem que el botó Clear no sigui visible
     """
     Executem els 3 mètodes anterior. Iniciem el thread auxiliar per llegir el carnet UPC i mostrem tots els widgets de la finestra.
     """
@@ -81,9 +78,10 @@ class MyWindow(Gtk.ApplicationWindow):
         self.start_boxes()
         self.start_labels()
         self.start_buttons()
-        self.wM.configure_style_CSS()
-        self.start_reading_thread()
-        self.show_all()
+        self.wM.configure_style_CSS()                                                                        #Apliquem totes les regles CSS als widgets
+        self.start_reading_thread()                                                                          
+        self.show_all()                                                                                      #Mostrem els widgets de la finestra
+      
     """
     Termina la finestra un cop es pressiona el botó "Surt".
     """
@@ -94,157 +92,160 @@ class MyWindow(Gtk.ApplicationWindow):
     Crea i arrenca el fil auxiliar.
     """
     def start_reading_thread(self):
-        self.thread = threading.Thread(target=self.rf_reading_task)          #El thread executarà la funció passada per argument
-        self.thread.daemon = True                                            #Fa que el fil termini d'executar (encara que no hagui lleguit cap uid) si la finestra es tanca.
-        self.thread.start()
+        self.thread = threading.Thread(target=self.rf_reading_task)                                          #El thread executarà la funció passada per argument
+        self.thread.daemon = True                                                                            #Fa que el fil termini d'executar (encara que no hagui lleguit cap uid) si la finestra es tanca.
+        self.thread.start()                                                                                  #Arrenquem el thread auxiliar
         
     """
     Funció que executarà el thread auxiliar. GTK no es thread-safe, per tant per evitar problemes hem de actualitzar la interfaç des de el fil principal, no desde el secundari. 
     """
     def rf_reading_task(self):
         self.myReader.read_uid()                                             #Executa el mètode del puzzle1 per tal d'obtenir el uid                   
-        GLib.idle_add(self.update_window, self.myReader.uid)                 #El que fem es fer que el fil secundari faci que s'executi el mètode update_window des de el fil principal per actualitzar la interfaç de forma segura. Passem la uid com argument de la funció "update_window"
+        GLib.idle_add(self.update_window, self.myReader.uid)                 #Fem es fer que el fil secundari faci que s'executi el mètode update_window des de el fil principal per actualitzar la interfaç de forma segura. Passem la uid com argument de la funció "update_window"
    
     """
-    Un cop es detecta una lectura, es crea el botó "Clear", es modifica el label de benvinguda i es mostra el uid per pantalla.
+    Un cop es detecta una lectura, es fa visible el botó "Clear", es modifica el label de benvinguda i es mostra el uid per pantalla.
     Paràmetres:
         :uid: Identificador de la tarjeta obtingut a la lectura.
     """
     def update_window(self,uid):
-        self.wM.change_background_color(self.welcome_label,GREEN_COLOR)
+        self.wM.change_background_color(self.welcome_label,GREEN_COLOR)                                   #Posem el fons del label de color verd.
         self.welcome_label.set_text(f"""                    Tarjeta detectada satisfactòriament!
                                                                      uid: {uid}""")
-        self.wM.set_widget_visible(self.clear_button,True)
+        self.wM.set_widget_visible(self.clear_button,True)                                                #Fem que el botó "Clear" es torni visible.
          
     """
     Torna la finestra a l'estat inicial un cop polsem el botó "Clear".
     """    
     def reset_window(self):
-         self.wM.change_background_color(self.welcome_label,BLUE_COLOR)
-         self.welcome_label.set_text(WELCOME_STRING)
-         self.set_widget_visible(self.clear_button,False)
-         self.myReader.uid = None                                                                                  #Esborrem la uid prèvia
-         self.start_reading_thread()                                                                               #Tornem a executar el fil secundari per poder tornar a lleguir una uid.
+         self.wM.change_background_color(self.welcome_label,BLUE_COLOR)                                      #Tornem a posar el fons blau al label
+         self.welcome_label.set_text(WELCOME_STRING)                                                         #Tornem a posar el text de benvinguda
+         self.set_widget_visible(self.clear_button,False)                                                    #Tornem a fer el botó "Clear" invisible
+         self.myReader.uid = None                                                                            #Esborrem la uid prèvia
+         self.start_reading_thread()                                                                         #Tornem a executar el fil secundari per poder tornar a lleguir una uid.
         
-
-"""
-Aquesta classe s'encarrega de fer una total gestió dels widgets. La seva funció es crear i modificar els widgets segons com l'objecte de la classe MyWindow demani.
-"""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+Aquesta classe s'encarrega de fer una total gestió dels widgets. La seva funció es crear i modificar els widgets de la finestra.
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 class widgetManager:
-        """
-        Instancia un objecte de la classe widggetManager. 
-        """
-        def __init__(self):         
-            self.editor_css = Gtk.CssProvider()                             #Creem l'objecte que controlarà les regles d'estil CSS.             
-        """
-        Crea un label.
-        Paràmetres:
-            :text: Text que es vol mostrar al label.
-        Return:
-            Label: Returns a label with the specified text
-        """   
-        def create_label(self,text):             
-          return Gtk.Label(label=text)                               #Creem un label i el retornem.
+    def __init__(self):         
+        self.editor_css = Gtk.CssProvider()                                                              #Creem l'objecte que controlarà les regles d'estil CSS.   
+          
+   """
+   Crea un label.
+   Paràmetres:
+       :text: Text que es vol mostrar al label.
+     Return:
+       Label: Torna un label amb el text especificat
+   """   
+   def create_label(self,text):             
+      return Gtk.Label(label=text)                                                                       #Creem un label i el retornem.
+          
         
-        """
-        Crea una capsa.
-        Paràmetres:
-            :orientation: Orientació de la capsa (horitzontal, vertical).
-            :spacing: Quantitat d'espai que deixaran els widgets de la capsa entre ells.
-        Return:
-            Box: Returns a box with the specified parameters
-        """
-        def create_box(self,orientation,spacing): 
-            return Gtk.Box(orientation=orientation,spacing=spacing)                                     #Creem la capsa i la retornem.
+    """
+    Crea una capsa.
+    Paràmetres:
+        :orientation: Orientació de la capsa (horitzontal, vertical).
+        :spacing: Quantitat d'espai que deixaran els widgets de la capsa entre ells.
+     Return:
+        Box: Torna una capsa amb els paràmetres especificats
+    """
+    def create_box(self,orientation,spacing): 
+        return Gtk.Box(orientation=orientation,spacing=spacing)                                         #Creem la capsa i la retornem.
         
-        """
-        Crea un botó. 
-        Paràmetres:
-            :text: Text que contindrà el botó.
-        Return:
-            Button: Returns a button with the specified text
-        """          
-        def create_button(self,text):         
-          return Gtk.Button(label=text)               #Creem el botó i el retornem         
+    """
+    Crea un botó. 
+    Paràmetres:
+        :text: Text que contindrà el botó.
+    Return:
+        Button: Tornem un botó amb el text especificat
+    """          
+    def create_button(self,text):         
+       return Gtk.Button(label=text)                                                                     #Creem el botó i el retornem         
             
-        """
-        Afegim el widget al inici de la capsa passada per argument.
-        Paràmetres:    
-            :box: Capsa a la qual volem afegir un widget.
-            :widget: Widget que volem afegir a la capses.
-            :expand(boolean): Si vols que el widget s'expandeixi per omplenar el espai lliure de la capsa, altrament, el widget mantindrà el seu tamany original.
-            :fill(boolean): Si vols que el widget ompleni el espai disponible dintre de l'àrea que se li assgina a la capsa.
-            :padding: Marge en píxels entre el widget i la capsa.
-        """
-        def add_widget_box_start(self,box,widget,expand,fill,padding):
-            box.pack_start(widget, expand, fill, padding) 
-            """
-        Afegim el widget al inici de la capsa passada per argument.
-        Paràmetres:    
-            :box: Capsa a la qual volem afegir un widget.
-            :widget: Widget que volem afegir a la capses.
-            :expand(boolean): Si vols que el widget s'expandeixi per omplenar el espai lliure de la capsa, altrament, el widget mantindrà el seu tamany original.
-            :fill(boolean): Si vols que el widget ompleni el espai disponible dintre de l'àrea que se li assgina a la capsa.
-            :padding: Marge en píxels entre el widget i la capsa.
-        """  
-        def add_widget_box_end(self,box,widget,expand,fill,padding):
-            box.pack_end(widget, expand, fill, padding)
-        def set_widget_name(self,widget,name)
-            widget.set_name(name)
-        def set_widget_visible(self,widget,visibility)
-            widget.set_visible(visibility)
-        """
-        Utilitzem el llenguatge CSS per editar els widgets.
-        Paràmetres:
-            :widget: Widget que volem editar.
-            :color_fons: Color desijat del fons del widget.
-            :color_text: Color desijat del text del widget.
-            :padding: Marge entre el text i la seva vora.
-            :border_radius: Radi de curvatura de la vora del widget.
-        """
-        """
-        Funció que modifica el color de fons de un widget. És útil si volem modificar el color de forma dinàmica un cop ja hem aplicat les regles CSS
-        Paràmetres:
-            :widget: Widget que volem editar.
-            :color: Color que volem introduir. Ha de ser un objecte de la glase Gtk.RGBA.
-        """
+    """
+    Afegim el widget al inici de la capsa passada per argument.
+    Paràmetres:    
+        :box: Capsa a la qual volem afegir un widget.
+        :widget: Widget que volem afegir a la capses.
+        :expand(boolean): Si vols que el widget s'expandeixi per omplenar el espai lliure de la capsa, altrament, el widget mantindrà el seu tamany original.
+        :fill(boolean): Si vols que el widget ompleni el espai disponible dintre de l'àrea que se li assgina a la capsa.
+        :padding: Marge en píxels entre el widget i la capsa.
+    """
+    def add_widget_box_start(self,box,widget,expand,fill,padding):
+        box.pack_start(widget, expand, fill, padding)
+      
+    """
+    Afegim el widget al inici de la capsa passada per argument.
+    Paràmetres:    
+        :box: Capsa a la qual volem afegir un widget.
+        :widget: Widget que volem afegir a la capses.
+        :expand(boolean): Si vols que el widget s'expandeixi per omplenar el espai lliure de la capsa, altrament, el widget mantindrà el seu tamany original.
+        :fill(boolean): Si vols que el widget ompleni el espai disponible dintre de l'àrea que se li assgina a la capsa.
+        :padding: Marge en píxels entre el widget i la capsa.
+    """  
+    def add_widget_box_end(self,box,widget,expand,fill,padding):
+        box.pack_end(widget, expand, fill, padding)
+      
+    def set_widget_name(self,widget,name)
+        widget.set_name(name)
+      
+    def set_widget_visible(self,widget,visibility)
+        widget.set_visible(visibility)
+   
+
+    """
+    Funció que modifica el color de fons de un widget. És útil si volem modificar el color de forma dinàmica un cop ja hem aplicat les regles CSS
+    Paràmetres:
+        :widget: Widget que volem editar.
+        :color: Color que volem introduir. Ha de ser un objecte de la glase Gtk.RGBA.
+    """
         def change_backgroud_color(self,widget,color)
             widget.override_background_color(Gtk.StateFlags.NORMAL,color)
-        def configure_style_CSS(self):
-                                                                                                   #Creem la cadena de text que conté regles CSS dinàmicament utilitzant f-strings.
-            css = b"""                                                                         
-            #welcome_label{
-                background-color: blue;  
-                color: black;                  
-                padding: 60px;                  
-                border-radius: 10px;
-                margin-left: 5px;
-                margin-right: 5px;
-                margin-bottom: 
-                font-size: 
+    """
+    Utilitzem el llenguatge CSS per editar els widgets.
+    Paràmetres:
+        :widget: Widget que volem editar.
+        :color_fons: Color desijat del fons del widget.
+        :color_text: Color desijat del text del widget.
+        :padding: Marge entre el text i la seva vora.
+        :border_radius: Radi de curvatura de la vora del widget.
+    """
+    def configure_style_CSS(self):                                                                                                #Creem la cadena de text que conté regles CSS dinàmicament utilitzant f-strings.
+      css = b"""                                                                         
+        #welcome_label{
+            background-color: blue;  
+            color: black;                  
+            padding: 60px;                  
+            border-radius: 10px;
+            margin-left: 5px;
+            margin-right: 5px;
+            margin-bottom: 
+            font-size: 
             }
-            #exit_button{
-                background-color: red;  
-                color: black;                  
-                padding: 60px;                  
-                border-radius: 20px;
-                font-size: 
+        #exit_button{
+            background-color: red;  
+            color: black;                  
+            padding: 60px;                  
+            border-radius: 20px;
+            font-size: 
             }
-            #clear_button{
-                background-color: gray;  
-                color: black;                  
-                padding: 60px;                  
-                border-radius: 20px;
-                font-size: 
+        #clear_button{
+            background-color: gray;  
+            color: black;                  
+            padding: 60px;                  
+            border-radius: 20px;
+            font-size: 
             }
-            
-                
-        """
-            self.editor_css.load_from_data(css)                                             #Carreguem les regles d'estil CSS del string "css" en format de bytes al proveïdor CSS que hem instanciat al mètode __init__.
-            self.get_style_context().add_provider(self.editor_css,Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)                                           
-"""
+                            
+         """
+        self.editor_css.load_from_data(css)                                             #Carreguem les regles d'estil CSS del string "css" en format de bytes al proveïdor CSS que hem instanciat al mètode __init__.
+        self.get_style_context().add_provider(self.editor_css,Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)  
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 Classe que permet gestionar la aplicació principal, gestiona les finestres. En aquest cas només hem de gestiona una finestra.
-"""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 class Application(Gtk.Application):
     def __init__(self):
         super().__init__()         
