@@ -71,16 +71,6 @@ class MyWindow(Gtk.ApplicationWindow):
         self.wM.add_widget_box_end(self.main_box,self.clear_button,True,True,0)                              #Introduim el botó Clear a la capsa 
         self.wM.set_widget_name(self.clear_button,"clear_button")
         self.wM.set_widget_visible(self.clear_button,False)                                                  #Inicialment, fem que el botó Clear no sigui visible
-    """
-    Executem els 3 mètodes anterior. Iniciem el thread auxiliar per llegir el carnet UPC i mostrem tots els widgets de la finestra.
-    """
-    def start_window(self):    
-        self.start_boxes()
-        self.start_labels()
-        self.start_buttons()
-        self.wM.configure_style_CSS()                                                                        #Apliquem totes les regles CSS als widgets
-        self.start_reading_thread()                                                                          
-        self.show_all()                                                                                      #Mostrem els widgets de la finestra
       
     """
     Termina la finestra un cop es pressiona el botó "Surt".
@@ -102,6 +92,17 @@ class MyWindow(Gtk.ApplicationWindow):
     def rf_reading_task(self):
         self.myReader.read_uid()                                             #Executa el mètode del puzzle1 per tal d'obtenir el uid                   
         GLib.idle_add(self.update_window, self.myReader.uid)                 #Fem es fer que el fil secundari faci que s'executi el mètode update_window des de el fil principal per actualitzar la interfaç de forma segura. Passem la uid com argument de la funció "update_window"
+
+    """
+    Iniciem tots els widgets i apliquem les regles CSS. Iniciem el thread auxiliar per llegir el carnet UPC i mostrem tots els widgets de la finestra.
+    """
+    def start_window(self):    
+        self.start_boxes()
+        self.start_labels()
+        self.start_buttons()
+        self.wM.configure_style_CSS()                                                                        #Apliquem totes les regles CSS als widgets
+        self.start_reading_thread()                                                                          
+        self.show_all()                                                                                      #Mostrem els widgets de la finestra
    
     """
     Un cop es detecta una lectura, es fa visible el botó "Clear", es modifica el label de benvinguda i es mostra el uid per pantalla.
