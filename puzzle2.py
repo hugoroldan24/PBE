@@ -221,29 +221,37 @@ class widgetManager:
       css = b"""                                    #Creem la cadena de text que conté regles CSS dinàmicament utilitzant f-strings.                                                                         
         #welcome_label{
             background-color: blue;                 #Color desijat del fons del widget.                                                                                                                             
-            color: black;                           #Color desijat del text del widget.                  
+            color: white;                           #Color desijat del text del widget.                  
             padding: 60px;                          #Marge entre el text i la seva vora.            
             border-radius: 10px;                    #Radi de curvatura de la vora del widget.
             margin-left: 5px;                       #Marge esquerra
             margin-right: 5px;                      #Marge dret
-            margin-bottom: 20px;                          #Marge inferior 
+            margin-top 5px;
             font-size: 20;                           #Tamany del text
             }
         #exit_button{
-            background-color: red;  
+            background-color: #FF5959;  
             color: black;                  
-            padding: 60px;                  
-            border-radius: 20px;
-            font-size: 20;
+            padding: 5px;                  
+            border-radius: 10px;
+            border: 2px dotted red;
+            margin-right: 5px;
+            margin-left: 5px;
+            margin-bottom: 5px;
+            font-size: 20px;
             }
         #clear_button{
-            background-color: gray;  
+            background-color: #B4B1B2;  
             color: black;                  
-            padding: 60px;                  
-            border-radius: 20px;
-            font-size: 20; 
-            }
-                            
+            padding: 5px;
+            border: 2px dotted gray;
+            border-radius: 10px;
+            font-size: 20;
+            margin-right: 5px;
+            margin-left: 5px;
+            margin-bottom: 5px;
+            margin-top: 5px;
+            }                        
          """
         self.editor_css.load_from_data(css)                                                             #Carreguem les regles d'estil CSS del string "css" al proveïdor CSS que hem instanciat al mètode __init__.
         screen = Gdk.Screen.get_default()
