@@ -70,8 +70,7 @@ class MyWindow(Gtk.ApplicationWindow):
         self.clear_button.connect("clicked",self.reset_window)                                               #S'executarà el mètode reset_window() quan es pressioni el botó "Clear"
         self.wM.add_widget_box_end(self.main_box,self.clear_button,True,True,0)                              #Introduim el botó Clear a la capsa 
         self.wM.set_widget_name(self.clear_button,"clear_button")
-        self.wM.set_widget_visible(self.clear_button,False)                                                  #Inicialment, fem que el botó Clear no sigui visible
-      
+        
     """
     Termina la finestra un cop es pressiona el botó "Surt".
     """
@@ -103,6 +102,7 @@ class MyWindow(Gtk.ApplicationWindow):
         self.wM.configure_style_CSS()                                                                        #Apliquem totes les regles CSS als widgets
         self.start_reading_thread()                                                                          
         self.show_all()                                                                                      #Mostrem els widgets de la finestra
+        self.wM.set_widget_visible(self.clear_button,False)                                                  #Fem el botó "Clear" invisible després del .show_all (si es fa abans, el mètode show_all el mostra de totes maneres)
    
     """
     Un cop es detecta una lectura, es fa visible el botó "Clear", es modifica el label de benvinguda i es mostra el uid per pantalla.
