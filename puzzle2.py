@@ -54,7 +54,7 @@ class MyWindow(Gtk.ApplicationWindow):
     """
     def start_labels(self):
         self.welcome_label = self.wM.create_label(WELCOME_STRING)                                            #Creem el label amb el text passat per paràmetre
-        self.wM.add_widget_box_start(self.main_box,self.welcome_label, True, True, 0)                        #Afegim el label al inici de la capsa vertical (part superior)
+        self.wM.add_widget_box_start(self.main_box,self.welcome_label, False, False, 0)                      #Afegim el label al inici de la capsa vertical (part superior)
         self.wM.set_widget_name(self.welcome_label,"welcome_label")                                          #Posem un nom al widget per tal de aplicar-li les regles CSS
       
     """
@@ -63,12 +63,12 @@ class MyWindow(Gtk.ApplicationWindow):
     def start_buttons(self):
         self.exit_button = self.wM.create_button("Exit")                                                     #Creem el botó Exit.
         self.exit_button.connect("clicked",self.exit_button_pressed)                                         #S'executarà la funció "exit_buttom_pressed" quan pressionem el botó.
-        self.wM.add_widget_box_end(self.main_box,self.exit_button, True, True, 0)                            #Afegim el botó al final de la capsa vertical (part inferior)
+        self.wM.add_widget_box_end(self.main_box,self.exit_button, False, False, 0)                          #Afegim el botó al final de la capsa vertical (part inferior)
         self.wM.set_widget_name(self.exit_button,"exit_button")
 
         self.clear_button = self.wM.create_button("Clear")                                                   #Creem el botó Clear
         self.clear_button.connect("clicked",self.reset_window)                                               #S'executarà el mètode reset_window() quan es pressioni el botó "Clear"
-        self.wM.add_widget_box_end(self.main_box,self.clear_button,True,True,0)                              #Introduim el botó Clear a la capsa 
+        self.wM.add_widget_box_end(self.main_box,self.clear_button, False, False,0)                          #Introduim el botó Clear a la capsa 
         self.wM.set_widget_name(self.clear_button,"clear_button")
         
     """
