@@ -7,8 +7,8 @@ sudo apt install gir1.2-gtk-3.0
 import gi
 import puzzle1 
 import threading 
-gi.require_version("Gtk", "3.0")                              #Indiquem que volem fer servir GTK3
-from gi.repository import Gtk, GLib                           #Importem desde el repositori de gi la llibreria Gtk i GLib que conté les classes i mètodes per crear la interfaç i interactuar amb threads auxiliars respectivament. 
+gi.require_version("Gtk", "3.0")                                   #Indiquem que volem fer servir GTK3
+from gi.repository import Gtk, GLib, Gdk                           #Importem desde el repositori de gi la llibreria Gtk, GLib i Gdk que conté les classes i mètodes per crear la interfaç i interactuar amb threads auxiliars respectivament. 
 
 WELCOME_STRING = "Please, login with your university card"
 GREEN_COLOR = Gdk.RGBA(0.0, 1.0, 0.0, 1.0)                    #Color verd en format RGBA (R=0, G=1, B=0, A=1)
@@ -47,7 +47,7 @@ class MyWindow(Gtk.ApplicationWindow):
     """
     def start_boxes(self):            
         self.main_box = self.wM.create_box(Gtk.Orientation.VERTICAL,0)                                      #Creem una capsa amb orientació vertical
-        self.add(main_box)                                                                                  #Afegim la capsa a la finestra
+        self.add(self.main_box)                                                                                  #Afegim la capsa a la finestra
               
     """
     Instancia els labels que es faràn servir inicialment i els introdueix a la capsa principal
@@ -109,7 +109,7 @@ class MyWindow(Gtk.ApplicationWindow):
     """
     Torna la finestra a l'estat inicial un cop polsem el botó "Clear".
     """    
-    def reset_window(self,clear_button):
+    def reset_window(self,widget):
          self.wM.change_background_color(self.welcome_label,BLUE_COLOR)                                      #Tornem a posar el fons blau al label
          self.welcome_label.set_text(WELCOME_STRING)                                                         #Tornem a posar el text de benvinguda
          self.myReader.uid = None                                                                            #Esborrem la uid prèvia
@@ -206,7 +206,7 @@ class widgetManager:
       css = b"""                                    #Creem la cadena de text que conté regles CSS dinàmicament utilitzant f-strings.                                                                         
         #welcome_label{
             background-color: blue;                 #Color desijat del fons del widget.                                                                                                                             
-            color: white;                           #Color desijat del text del widget.                  
+            color: black;                           #Color desijat del text del widget.                  
             padding: 60px;                          #Marge entre el text i la seva vora.            
             border-radius: 10px;                    #Radi de curvatura de la vora del widget.
             margin-left: 5px;                       #Marge esquerra
@@ -254,7 +254,7 @@ class Application(Gtk.Application):
     """
     def do_activate(self):       
         self.window = MyWindow(widgetManager())                                          #Instanciem una finestra i passem un objecte widgetManager per paràmetre.
-        self.window.configure_window(400,300,Gtk.WindowPosition.CENTER,"PUZZLE2")        #Configurem la finestra.
+        self.window.configure_window(400,100,Gtk.WindowPosition.CENTER,"PUZZLE2")        #Configurem la finestra.
         self.window.connect("destroy", Gtk.main_quit)                                    #La finestra es podrà esborrar de forma manual eliminant la pestanya o clicant a la X.
         self.window.start_window()                                                       #Arranquem la finestra.
         self.window.present()                                                            #Mostrem la finestra.
