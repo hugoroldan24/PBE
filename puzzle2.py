@@ -116,9 +116,9 @@ class MyWindow(Gtk.ApplicationWindow):
          self.start_reading_thread()                                                                         #Tornem a executar el fil secundari per poder tornar a lleguir una uid.
       
         
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 Aquesta classe s'encarrega de fer una total gestió dels widgets. La seva funció es crear i modificar els widgets de la finestra.
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 class widgetManager:
     def __init__(self):         
         self.editor_css = Gtk.CssProvider()                                                                  #Creem l'objecte que controlarà les regles d'estil CSS.   
