@@ -58,24 +58,18 @@ class MyWindow(Gtk.ApplicationWindow):
         self.wM.set_widget_name(self.welcome_label,"welcome_label")                                          #Posem un nom al widget per tal de aplicar-li les regles CSS
       
     """
-    Instancia els botons que es faràn servil inicialmente. Configura les seves característiques i els afegeix a la Capsa 0.
+    Instancia els botons que es faràn servil inicialmente. Configura les seves característiques i els afegeix a la capsa
     """
     def start_buttons(self):
         self.exit_button = self.wM.create_button("Exit")                                                     #Creem el botó Exit.
-        self.exit_button.connect("clicked",self.exit_button_pressed)                                         #S'executarà la funció "exit_buttom_pressed" quan pressionem el botó.
+        self.exit_button.connect("clicked",Gtk.main_quit)                                                    #Terminem la finestra quan pressionem el botó.
         self.wM.add_widget_box_end(self.main_box,self.exit_button, False, False, 0)                          #Afegim el botó al final de la capsa vertical (part inferior)
         self.wM.set_widget_name(self.exit_button,"exit_button")
 
         self.clear_button = self.wM.create_button("Clear")                                                   #Creem el botó Clear
         self.clear_button.connect("clicked",self.reset_window)                                               #S'executarà el mètode reset_window() quan es pressioni el botó "Clear"
         self.wM.add_widget_box_end(self.main_box,self.clear_button, False, False,0)                          #Introduim el botó Clear a la capsa 
-        self.wM.set_widget_name(self.clear_button,"clear_button")
-        
-    """
-    Termina la finestra un cop es pressiona el botó "Surt".
-    """
-    def exit_button_pressed(self):
-        Gtk.main_quit()
+        self.wM.set_widget_name(self.clear_button,"clear_button")        
         
     """
     Crea i arrenca el fil auxiliar.
@@ -99,10 +93,9 @@ class MyWindow(Gtk.ApplicationWindow):
         self.start_boxes()
         self.start_labels()
         self.start_buttons()
-        self.wM.configure_style_CSS()                                                                        #Apliquem totes les regles CSS als widgets
+        self.wM.configure_style_CSS()                                                                       #Apliquem totes les regles CSS als widgets
         self.start_reading_thread()                                                                          
-        self.show_all()                                                                                      #Mostrem els widgets de la finestra
-        self.wM.set_widget_visible(self.clear_button,False)                                                  #Fem el botó "Clear" invisible després del .show_all (si es fa abans, el mètode show_all el mostra de totes maneres)
+        self.show_all()                                                                                     #Mostrem els widgets de la finestra
    
     """
     Un cop es detecta una lectura, es fa visible el botó "Clear", es modifica el label de benvinguda i es mostra el uid per pantalla.
@@ -112,15 +105,13 @@ class MyWindow(Gtk.ApplicationWindow):
     def update_window(self,uid):
         self.wM.change_background_color(self.welcome_label,GREEN_COLOR)                                      #Posem el fons del label de color verd.
         self.welcome_label.set_text(f"uid: {uid}")                                                                                     
-        self.wM.set_widget_visible(self.clear_button,True)                                                   #Fem que el botó "Clear" es torni visible.
-         
+        
     """
     Torna la finestra a l'estat inicial un cop polsem el botó "Clear".
     """    
-    def reset_window(self):
+    def reset_window(self,clear_button):
          self.wM.change_background_color(self.welcome_label,BLUE_COLOR)                                      #Tornem a posar el fons blau al label
          self.welcome_label.set_text(WELCOME_STRING)                                                         #Tornem a posar el text de benvinguda
-         self.set_widget_visible(self.clear_button,False)                                                    #Tornem a fer el botó "Clear" invisible
          self.myReader.uid = None                                                                            #Esborrem la uid prèvia
          self.start_reading_thread()                                                                         #Tornem a executar el fil secundari per poder tornar a lleguir una uid.
       
@@ -140,7 +131,7 @@ class widgetManager:
        Label: Torna un label amb el text especificat
    """   
    def create_label(self,text):             
-      return Gtk.Label(label=text)                                                                           #Creem un label i el retornem.
+      return Gtk.Label(label=text)                                                                            #Creem un label i el retornem.
                   
     """
     Crea una capsa.
@@ -192,12 +183,6 @@ class widgetManager:
     """
     def set_widget_name(self,widget,name)
         widget.set_name(name)
-      
-    """
-    Fem el widget visible (visibility = True) o invisible (visibility = False)
-    """
-    def set_widget_visible(self,widget,visibility)
-        widget.set_visible(visibility)
    
     """
     Funció que modifica el color de fons de un widget. És útil si volem modificar el color de forma dinàmica un cop ja hem aplicat les regles CSS
@@ -227,7 +212,7 @@ class widgetManager:
             margin-left: 5px;                       #Marge esquerra
             margin-right: 5px;                      #Marge dret
             margin-top 5px;
-            font-size: 20;                           #Tamany del text
+            font-size: 20;                          #Tamany del text
             }
         #exit_button{
             background-color: #FF5959;  
@@ -235,8 +220,8 @@ class widgetManager:
             padding: 5px;                  
             border-radius: 10px;
             border: 2px dotted red;
-            margin-right: 5px;
             margin-left: 5px;
+            margin-right: 5px;          
             margin-bottom: 5px;
             font-size: 20px;
             }
@@ -244,16 +229,16 @@ class widgetManager:
             background-color: #B4B1B2;  
             color: black;                  
             padding: 5px;
-            border: 2px dotted gray;
             border-radius: 10px;
-            font-size: 20;
-            margin-right: 5px;
+            border: 2px dotted gray;
             margin-left: 5px;
+            margin-right: 5px;
             margin-bottom: 5px;
             margin-top: 5px;
+            font-size: 20px;
             }                        
          """
-        self.editor_css.load_from_data(css)                                                             #Carreguem les regles d'estil CSS del string "css" al proveïdor CSS que hem instanciat al mètode __init__.
+        self.editor_css.load_from_data(css)                                                                       #Carreguem les regles d'estil CSS del string "css" al proveïdor CSS que hem instanciat al mètode __init__.
         screen = Gdk.Screen.get_default()
         Gtk.StyleContext.add_provider_for_screen(screen,self.editor_css,Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)  #Apliquem les regles CSS als widgets.
 
