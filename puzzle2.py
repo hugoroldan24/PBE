@@ -15,9 +15,9 @@ GREEN_COLOR = Gdk.RGBA(0.0, 1.0, 0.0, 1.0)                    #Color verd en for
 BLUE_COLOR = Gdk.RGBA(0.0, 0, 1, 1.0)                         #Color blau en format RGBA (R=0, G=0, B=1, A=1)
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-Classe per configurar la finestra d'una aplicació i els seus elements. La classe hereda la classe Gtk.ApplicationWindow
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+Classe per configurar la finestra d'una aplicació i els seus elements. La classe hereda els mètodes de la classe Gtk.ApplicationWindow
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 class MyWindow(Gtk.ApplicationWindow):  
     """
     Inicialitza un objecte de la classe MyWindow.
@@ -27,7 +27,7 @@ class MyWindow(Gtk.ApplicationWindow):
     def __init__(self,widgetManager):
         super().__init__()                                                 #Cridem a la funció __init__ de la classe Gtk.ApplicationWindow.
         self.wM = widgetManager                                 
-        self.myReader = puzzle1.Rfid_522()                                 #Instancia un objecte de la classe Rfid_522() de la llibreria puzzle1.
+        self.myReader = puzzle1.Rfid_522()                                 #Instancia un objecte de la classe Rfid_522() del puzzle1.
       
     """ 
     Configura la finestra amb els paràmetres escollits.
@@ -40,13 +40,13 @@ class MyWindow(Gtk.ApplicationWindow):
     def configure_window(self,amplada,altura,posició,titol):
         self.set_title(titol) 
         self.set_default_size(amplada,altura)
-        self.set_position(posició) 
+        self.set_position(posició)                                        #Posició de la finestra a la pantalla
       
     """
     Instancia totes les capses que es faràn servir, les configura i les afegeix a la finestra.
     """
     def start_boxes(self):            
-        self.main_box = self.wM.create_box(Gtk.Orientation.VERTICAL,0)                                      #Creem una capsa amb orientació vertical
+        self.main_box = self.wM.create_box(Gtk.Orientation.VERTICAL,0)                                           #Creem una capsa amb orientació vertical
         self.add(self.main_box)                                                                                  #Afegim la capsa a la finestra
               
     """
@@ -75,7 +75,7 @@ class MyWindow(Gtk.ApplicationWindow):
     Crea i arrenca el fil auxiliar.
     """
     def start_reading_thread(self):
-        self.thread = threading.Thread(target=self.rf_reading_task)                                          #El thread executarà la funció passada per argument
+        self.thread = threading.Thread(target=self.rf_reading_task)                                          #El thread un cop fem -start(), executarà la funció passada per argument
         self.thread.daemon = True                                                                            #Fa que el fil termini d'executar (encara que no hagui lleguit cap uid) si la finestra es tanca.
         self.thread.start()                                                                                  #Arrenquem el thread auxiliar
         
@@ -83,8 +83,8 @@ class MyWindow(Gtk.ApplicationWindow):
     Funció que executarà el thread auxiliar. GTK no es thread-safe, per tant per evitar problemes hem de actualitzar la interfaç des de el fil principal, no desde el secundari. 
     """
     def rf_reading_task(self):
-        self.myReader.read_uid()                                             #Executa el mètode del puzzle1 per tal d'obtenir el uid                   
-        GLib.idle_add(self.update_window, self.myReader.uid)                 #Fem es fer que el fil secundari faci que s'executi el mètode update_window des de el fil principal per actualitzar la interfaç de forma segura. Passem la uid com argument de la funció "update_window"
+        self.myReader.read_uid()                                             #Executa el mètode del puzzle1 per tal d'obtenir el uid. Mètode bloquejant, però com és un Thread secundari la interfície no es veura afectada                 
+        GLib.idle_add(self.update_window, self.myReader.uid)                 #El fil secundari farà que s'executi el mètode update_window des de el fil principal per actualitzar la interfaç de forma segura. Passem la uid com argument de la funció "update_window".
 
     """
     Iniciem tots els widgets i apliquem les regles CSS. Iniciem el thread auxiliar per llegir el carnet UPC i mostrem tots els widgets de la finestra.
@@ -93,18 +93,18 @@ class MyWindow(Gtk.ApplicationWindow):
         self.start_boxes()
         self.start_labels()
         self.start_buttons()
-        self.wM.configure_style_CSS()                                                                       #Apliquem totes les regles CSS als widgets
-        self.start_reading_thread()                                                                          
-        self.show_all()                                                                                     #Mostrem els widgets de la finestra
+        self.wM.configure_style_CSS()                                                                       #Apliquem les regles CSS als widgets.
+        self.start_reading_thread()                                                                         
+        self.show_all()                                                                                     #Mostrem els widgets de la finestra.
    
     """
-    Un cop es detecta una lectura, es fa visible el botó "Clear", es modifica el label de benvinguda i es mostra el uid per pantalla.
+    Un cop es detecta una lectura, es modifica el label de benvinguda i es mostra el uid per pantalla.
     Paràmetres:
         :uid: Identificador de la tarjeta obtingut a la lectura.
     """
     def update_window(self,uid):
         self.wM.change_background_color(self.welcome_label,GREEN_COLOR)                                      #Posem el fons del label de color verd.
-        self.welcome_label.set_text(f"uid: {uid}")                                                                                     
+        self.welcome_label.set_text(f"uid: {uid}")                                                           #Posem la uid detectada com el text del label.                                                                                     
         
     """
     Torna la finestra a l'estat inicial un cop polsem el botó "Clear".
@@ -167,7 +167,7 @@ class widgetManager:
         box.pack_start(widget, expand, fill, padding)
       
     """
-    Afegim el widget al inici de la capsa passada per argument.
+    Afegim el widget al final de la capsa passada per argument.
     Paràmetres:    
         :box: Capsa a la qual volem afegir un widget.
         :widget: Widget que volem afegir a la capses.
@@ -194,16 +194,10 @@ class widgetManager:
         widget.override_background_color(Gtk.StateFlags.NORMAL,color)
       
     """
-    Funció que aplica les regles CSS als widgets.
-    Paràmetres:
-      
-        :color_fons: Color desijat del fons del widget.
-        :color_text: Color desijat del text del widget.
-        :padding: Marge entre el text i la seva vora.
-        :border_radius: Radi de curvatura de la vora del widget.
+    Funció que aplica les regles CSS als widgets. El mètode set_widget_name realitzat sobre el label i els botons ho he fet per ara poder aplicar el selector #<widget> per tal d'aplicar regles CSS individuals a cada widget.
     """
     def configure_style_CSS(self):                                   
-      css = b"""                                    #Creem la cadena de text que conté regles CSS dinàmicament utilitzant f-strings.                                                                         
+      css = b"""                                    #Creem la cadena de text que conté regles CSS. La "b" a l'inici del string es per convertir la cadena de text en bytes.                                                                         
         #welcome_label{
             background-color: blue;                 #Color desijat del fons del widget.                                                                                                                             
             color: black;                           #Color desijat del text del widget.                  
@@ -211,7 +205,7 @@ class widgetManager:
             border-radius: 10px;                    #Radi de curvatura de la vora del widget.
             margin-left: 5px;                       #Marge esquerra
             margin-right: 5px;                      #Marge dret
-            margin-top 5px;
+            margin-top 5px;                         #Marge superior
             font-size: 20;                          #Tamany del text
             }
         #exit_button{
@@ -219,7 +213,7 @@ class widgetManager:
             color: black;                  
             padding: 5px;                  
             border-radius: 10px;
-            border: 2px dotted red;
+            border: 2px dotted red;                 #Vora del widget, dotted fa que la vora es representi amb punts i no una linia contínua.
             margin-left: 5px;
             margin-right: 5px;          
             margin-bottom: 5px;
@@ -239,8 +233,8 @@ class widgetManager:
             }                        
          """
         self.editor_css.load_from_data(css)                                                                       #Carreguem les regles d'estil CSS del string "css" al proveïdor CSS que hem instanciat al mètode __init__.
-        screen = Gdk.Screen.get_default()
-        Gtk.StyleContext.add_provider_for_screen(screen,self.editor_css,Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)  #Apliquem les regles CSS als widgets.
+        screen = Gdk.Screen.get_default()                                                                         #Obtenim una referència a la pantalla de la aplicació
+        Gtk.StyleContext.add_provider_for_screen(screen,self.editor_css,Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)  #Apliquem les regles CSS als widgets de la finestra.
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -250,7 +244,7 @@ class Application(Gtk.Application):
     def __init__(self):
         super().__init__()         
     """
-    Mètode que s'executa cuan es crida la funció .run() a objecte d'aquesta mateixa classe.
+    Mètode que s'executa cuan es crida la funció .run() a un objecte d'aquesta mateixa classe.
     """
     def do_activate(self):       
         self.window = MyWindow(widgetManager())                                          #Instanciem una finestra i passem un objecte widgetManager per paràmetre.
@@ -258,7 +252,7 @@ class Application(Gtk.Application):
         self.window.connect("destroy", Gtk.main_quit)                                    #La finestra es podrà esborrar de forma manual eliminant la pestanya o clicant a la X.
         self.window.start_window()                                                       #Arranquem la finestra.
         self.window.present()                                                            #Mostrem la finestra.
-        Gtk.main()                                                                       #Permet mantenir la finestra oberta i respondre a event com clicar un botó.
+        Gtk.main()                                                                       #Permet mantenir la finestra oberta i respondre a events com clicar un botó.
 
 
 if __name__ == "__main__":        
