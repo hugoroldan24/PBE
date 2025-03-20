@@ -7,8 +7,8 @@
             border-radius: 10px;                    #Radi de curvatura de la vora del widget.
             margin-left: 5px;                       #Marge esquerra
             margin-right: 5px;                      #Marge dret
-            margin-top 5px;                         #Marge superior
-            font-size: 20;                          #Tamany del text
+            margin-top: 5px;                        #Marge superior
+            font-size: 20px;                        #Tamany del text
       }
       #exit_button{
             background-color: #FF5959;  
@@ -33,10 +33,15 @@
             margin-top: 5px;
             font-size: 20px;
       }     
-      .cambiar_fons_verd{
-            background-color: blue;
-      }
-      .cambiar_fons_blau{
-            background-color: green;
-      }
+      #accepted_label{
+	      background-color: green;                                                                                                                                             
+            color: black;                                       
+            padding: 60px;                                     
+            border-radius: 10px;                    
+            margin-left: 5px;                       
+            margin-right: 5px;                      
+            margin-top: 5px;                         
+            font-size: 20px;
+	}
+
          
