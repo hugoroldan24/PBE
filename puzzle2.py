@@ -20,7 +20,7 @@ class MyWindow(Gtk.ApplicationWindow):
     """
     Inicialitza un objecte de la classe Gtk.ApplicationWindow i de la classe Rfid_522() del puzzle1.
     """   
-    def __init__(self,widgetManager):
+    def __init__(self):
         super().__init__()                                                 #Cridem a la funció __init__ de la classe Gtk.ApplicationWindow.
         self.myReader = puzzle1.Rfid_522()                                 #Instancia un objecte de la classe Rfid_522() del puzzle1.
       
