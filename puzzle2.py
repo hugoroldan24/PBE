@@ -7,7 +7,8 @@ sudo apt install gir1.2-gtk-3.0
 import gi
 import puzzle1 
 import threading 
-gi.require_version("Gtk", "3.0")                                   #Indiquem que volem fer servir GTK3
+gi.require_version("Gtk", "3.0")                                       #Indiquem que volem fer servir GTK3
+from puzzle1Llibreria.puzzle1 import Rfid_522
 from gi.repository import Gtk, GLib, Gdk                               #Importem desde el repositori de gi la llibreria Gtk i GLib i que contenen les classes i mètodes per crear la interfaç i interactuar amb threads auxiliars respectivamente. 
 
 WELCOME_STRING = "Please, login with your university card"
