@@ -8,7 +8,7 @@ import gi
 import puzzle1 
 import threading 
 gi.require_version("Gtk", "3.0")                                   #Indiquem que volem fer servir GTK3
-from gi.repository import Gtk, GLib                                #Importem desde el repositori de gi la llibreria Gtk i GLib i que contenen les classes i mètodes per crear la interfaç i interactuar amb threads auxiliars respectivamente. 
+from gi.repository import Gtk, GLib, Gdk                               #Importem desde el repositori de gi la llibreria Gtk i GLib i que contenen les classes i mètodes per crear la interfaç i interactuar amb threads auxiliars respectivamente. 
 
 WELCOME_STRING = "Please, login with your university card"
 
@@ -23,6 +23,7 @@ class MyWindow(Gtk.ApplicationWindow):
     def __init__(self):
         super().__init__()                                                 #Cridem a la funció __init__ de la classe Gtk.ApplicationWindow.
         self.myReader = puzzle1.Rfid_522()                                 #Instancia un objecte de la classe Rfid_522() del puzzle1.
+        self.editor_css = Gtk.CssProvider()
       
     """ 
     Configura la finestra amb els paràmetres escollits.
@@ -48,7 +49,7 @@ class MyWindow(Gtk.ApplicationWindow):
     Instancia els labels que es faràn servir inicialment i els introdueix a la capsa principal
     """
     def start_labels(self):
-        self.welcome_label = Gtk.Label(text=WELCOME_STRING)                                                  #Creem el label amb el text passat per paràmetre
+        self.welcome_label = Gtk.Label(label=WELCOME_STRING)                                                  #Creem el label amb el text passat per paràmetre
         self.main_box.pack_start(self.welcome_label, False, False, 0)                                        #Afegim el label al inici de la capsa vertical (part superior)
         self.welcome_label.set_name("welcome_label")                                                         #Assignem una ID al label
         
@@ -98,14 +99,14 @@ class MyWindow(Gtk.ApplicationWindow):
         :uid: Identificador de la tarjeta obtingut a la lectura.
     """
     def update_window(self,uid):
-        self.welcome_label.get_style_context().add_class("cambiar_fons_verd")                                #Apiquem el contingut de la classe CSS "cambiar_fons_verd" al label
+        self.welcome_label.set_name("accepted_label")		                                                 #Modifiquem la ID del label per aplicar-li altres regles CSS
         self.welcome_label.set_text(f"uid: {uid}")                                                           #Posem la uid detectada com el text del label.                                                                                     
         
     """
     Torna la finestra a l'estat inicial un cop polsem el botó "Clear".
     """    
     def reset_window(self,widget):
-         self.welcome_label.get_style_context().add_class("cambiar_fons_blau")                               #Tornem a posar el fons blau al label                              
+         self.welcome_label.set_name("welcome_label")	                                                     #Tornem a la configuració inicial                              
          self.welcome_label.set_text(WELCOME_STRING)                                                         #Tornem a posar el text de benvinguda
          self.myReader.uid = None                                                                            #Esborrem la uid prèvia
          self.start_reading_thread()                                                                         #Tornem a executar el fil secundari per poder tornar a lleguir una uid.      
