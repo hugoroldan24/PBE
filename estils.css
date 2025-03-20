@@ -1,3 +1,5 @@
+
+
       #welcome_label{
             background-color: blue;                 #Color desijat del fons del widget.                                                                                                                             
             color: black;                           #Color desijat del text del widget.                  
@@ -7,7 +9,7 @@
             margin-right: 5px;                      #Marge dret
             margin-top 5px;                         #Marge superior
             font-size: 20;                          #Tamany del text
-            }
+      }
       #exit_button{
             background-color: #FF5959;  
             color: black;                  
@@ -18,7 +20,7 @@
             margin-right: 5px;          
             margin-bottom: 5px;
             font-size: 20px;
-            }
+      }
       #clear_button{
             background-color: #B4B1B2;  
             color: black;                  
@@ -30,5 +32,11 @@
             margin-bottom: 5px;
             margin-top: 5px;
             font-size: 20px;
-            }                        
+      }     
+      .cambiar_fons_verd{
+            background-color: blue;
+      }
+      .cambiar_fons_blau{
+            background-color: green;
+      }
          
