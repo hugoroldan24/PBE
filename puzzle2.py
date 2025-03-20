@@ -11,8 +11,6 @@ gi.require_version("Gtk", "3.0")                                   #Indiquem que
 from gi.repository import Gtk, GLib, Gdk                           #Importem desde el repositori de gi la llibreria Gtk, GLib i Gdk que conté les classes i mètodes per crear la interfaç, interactuar amb threads auxiliars i editar widgets respectivamente. 
 
 WELCOME_STRING = "Please, login with your university card"
-GREEN_COLOR = Gdk.RGBA(0.0, 1.0, 0.0, 1.0)                    #Color verd en format RGBA (R=0, G=1, B=0, A=1)
-BLUE_COLOR = Gdk.RGBA(0.0, 0, 1, 1.0)                         #Color blau en format RGBA (R=0, G=0, B=1, A=1)
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
