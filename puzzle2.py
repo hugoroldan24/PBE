@@ -181,7 +181,7 @@ class widgetManager:
     """
     Configurem el nom del widget
     """
-    def set_widget_name(self,widget,name)
+    def set_widget_name(self,widget,name):
         widget.set_name(name)
    
     """
@@ -190,7 +190,7 @@ class widgetManager:
         :widget: Widget que volem editar.
         :color: Color que volem introduir. Ha de ser un objecte de la glase Gtk.RGBA.
     """
-    def change_backgroud_color(self,widget,color)
+    def change_backgroud_color(self,widget,color):
         widget.override_background_color(Gtk.StateFlags.NORMAL,color)
       
     """
