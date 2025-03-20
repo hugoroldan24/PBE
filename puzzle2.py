@@ -100,14 +100,14 @@ class MyWindow(Gtk.ApplicationWindow):
         :uid: Identificador de la tarjeta obtingut a la lectura.
     """
     def update_window(self,uid):
-        self.wM.change_background_color(self.welcome_label,GREEN_COLOR)                                      #Posem el fons del label de color verd.
+        self.welcome_label.get_style_context().add_class("cambiar_fons_verd")                                #Apiquem el contingut de la classe CSS "cambiar_fons_verd" al label
         self.welcome_label.set_text(f"uid: {uid}")                                                           #Posem la uid detectada com el text del label.                                                                                     
         
     """
     Torna la finestra a l'estat inicial un cop polsem el botó "Clear".
     """    
     def reset_window(self,widget):
-         self.wM.change_background_color(self.welcome_label,BLUE_COLOR)                                      #Tornem a posar el fons blau al label
+         self.welcome_label.get_style_context().add_class("cambiar_fons_blau")                               #Tornem a posar el fons blau al label                              
          self.welcome_label.set_text(WELCOME_STRING)                                                         #Tornem a posar el text de benvinguda
          self.myReader.uid = None                                                                            #Esborrem la uid prèvia
          self.start_reading_thread()                                                                         #Tornem a executar el fil secundari per poder tornar a lleguir una uid.      
