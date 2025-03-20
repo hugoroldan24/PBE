@@ -8,7 +8,7 @@ import gi
 import puzzle1 
 import threading 
 gi.require_version("Gtk", "3.0")                                   #Indiquem que volem fer servir GTK3
-from gi.repository import Gtk, GLib, Gdk                           #Importem desde el repositori de gi la llibreria Gtk, GLib i Gdk que conté les classes i mètodes per crear la interfaç, interactuar amb threads auxiliars i editar widgets respectivamente. 
+from gi.repository import Gtk, GLib                                #Importem desde el repositori de gi la llibreria Gtk i GLib i que contenen les classes i mètodes per crear la interfaç i interactuar amb threads auxiliars respectivamente. 
 
 WELCOME_STRING = "Please, login with your university card"
 
