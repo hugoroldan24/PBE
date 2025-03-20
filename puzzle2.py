@@ -67,6 +67,7 @@ class MyWindow(Gtk.ApplicationWindow):
         self.clear_button.connect("clicked",self.reset_window)                                               #S'executarà el mètode reset_window() quan es pressioni el botó "Clear"
         self.main_box.pack_end(self.clear_button, False, False, 0)                                           #Introduim el botó Clear a la part inferior de la capsa 
         self.clear_button.set_name("clear_button")                                                           #Assignem una ID al botó
+       
     """
     Crea i arrenca el fil auxiliar.
     """
@@ -115,41 +116,7 @@ class MyWindow(Gtk.ApplicationWindow):
     Funció que aplica les regles CSS als widgets. El mètode set_widget_name realitzat sobre el label i els botons ho he fet per ara poder aplicar el selector #<widget> per tal d'aplicar regles CSS individuals a cada widget.
     """
     def configure_style_CSS(self):                                   
-      css = b"""                                    #Creem la cadena de text que conté regles CSS. La "b" a l'inici del string es per convertir la cadena de text en bytes.                                                                         
-        #welcome_label{
-            background-color: blue;                 #Color desijat del fons del widget.                                                                                                                             
-            color: black;                           #Color desijat del text del widget.                  
-            padding: 60px;                          #Marge entre el text i la seva vora.            
-            border-radius: 10px;                    #Radi de curvatura de la vora del widget.
-            margin-left: 5px;                       #Marge esquerra
-            margin-right: 5px;                      #Marge dret
-            margin-top 5px;                         #Marge superior
-            font-size: 20;                          #Tamany del text
-            }
-        #exit_button{
-            background-color: #FF5959;  
-            color: black;                  
-            padding: 5px;                  
-            border-radius: 10px;
-            border: 2px dotted red;                 #Vora del widget, dotted fa que la vora es representi amb punts i no una linia contínua.
-            margin-left: 5px;
-            margin-right: 5px;          
-            margin-bottom: 5px;
-            font-size: 20px;
-            }
-        #clear_button{
-            background-color: #B4B1B2;  
-            color: black;                  
-            padding: 5px;
-            border-radius: 10px;
-            border: 2px dotted gray;
-            margin-left: 5px;
-            margin-right: 5px;
-            margin-bottom: 5px;
-            margin-top: 5px;
-            font-size: 20px;
-            }                        
-         """
+        
         self.editor_css.load_from_path("estils.css")                                                              #Carreguem les regles d'estil CSS del fitxer estils.css
         screen = Gdk.Screen.get_default()                                                                         #Obtenim una referència a la pantalla de la aplicació
         Gtk.StyleContext.add_provider_for_screen(screen,self.editor_css,Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)  #Apliquem les regles CSS als widgets de la finestra.
